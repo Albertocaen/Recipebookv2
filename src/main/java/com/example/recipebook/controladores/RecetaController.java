@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
+import java.util.List;
+
 @Slf4j
 // Si no queremos usar @Autowired usamos Lombok para inject
 @RequiredArgsConstructor
@@ -22,7 +25,8 @@ public class RecetaController {
 
     @GetMapping({"/", "receta/list"})
     public String listado(Model model) {
-        model.addAttribute("listaRecetas", servicio.cargarrecetas() );
+        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
+        model.addAttribute("listaRecetas", listaRecetas);
         return "list";
     }
 
@@ -50,8 +54,17 @@ public class RecetaController {
             return "RecetaFormulario";
         } else {
             servicio.add(nuevaReceta);
+            model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
+            try {
+                servicio.copyFile();
+            } catch (IOException e) {
+                // Manejar la excepción adecuadamente
+                e.printStackTrace();
+            }
+
             return "redirect:/receta/list";
         }
+
     }
 
     @GetMapping("/receta/edit/{id}")
@@ -69,13 +82,14 @@ public class RecetaController {
 
     @PostMapping("/receta/edit/submit")
     public String editarRecetaSubmit(@Valid @ModelAttribute("recetaDto") Receta receta,
-                                      BindingResult bindingResult, Model model) {
+                                     BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", true);
-            return "FormularioReceteta";
+            return "RecetaFormulario";  // Corregir la vista aquí
         } else {
             servicio.edit(receta);
             return "redirect:/receta/list";
         }
     }
+
 }

@@ -3,34 +3,74 @@ package com.example.recipebook.servicios;
 import com.example.recipebook.entidades.Receta;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Slf4j
 @Service
 public class BookService {
     private List<Receta> repositorioRecetas = new ArrayList<>();
+
+    @Value("classpath:/recetas.txt")
+    private Resource sourceResource;
+
+    @Value("file:src/main/resources/recetas.txt")
+    private Resource targetResource;
+
+    private Resource resource;
     private final ResourceLoader resourceLoader;
     private boolean recetasCargadas=false;
+    private FileWriter fileWriter;
 
     public BookService(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+        this.resource = resourceLoader.getResource("classpath:recetas.txt"); // Inicializa resource aquí
+        try {
+            Resource resource= resourceLoader.getResource("classpath:recetas.txt");
+            File file=resource.getFile();
+            fileWriter=new FileWriter(file,true);
+        }catch (IOException e) {
+            log.error("Ocurrio un error",e);
+        }
     }
 
-    //public List<Receta> findAll() {
-    //  return repositorioRecetas;
-    //}
 
     public Receta add(Receta r) {
+        log.info("Entrando en la función add");
+        // Agrega la receta a la lista
         repositorioRecetas.add(r);
+
+        try {
+            // Abre el archivo para escritura
+            FileWriter fileWriter = new FileWriter(resource.getFile(), true);
+
+            // Escribe la nueva receta en el archivo
+            fileWriter.write(r.getId() + " | " + r.getNombre() + " | " + r.getIngredientes() + " | " + r.getPreparacion() + "\n");
+
+            // Cierra el archivo
+            fileWriter.close();
+
+            log.info("Se ha agregado una receta al archivo de texto");
+
+        } catch (IOException e) {
+            log.error("Ocurrió un error al escribir en el archivo", e);
+            throw new RuntimeException(e);
+        }
+
         return r;
     }
+
     public Receta findById(int id) {
         Receta receta = repositorioRecetas.stream()
                 .filter(r -> id == r.getId())
@@ -41,8 +81,8 @@ public class BookService {
 
 
     @PostConstruct
-    public List<Receta> cargarrecetas() {
-        if (!recetasCargadas){
+    public List<Receta> cargarRecetasDesdeArchivo() {
+        if (!recetasCargadas || repositorioRecetas.isEmpty()) {
             try {
                 Resource resource = resourceLoader.getResource("classpath:recetas.txt");
                 BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
@@ -61,14 +101,23 @@ public class BookService {
                         repositorioRecetas.add(receta);
                     }
                 }
-                recetasCargadas=true;
+                recetasCargadas = true;
 
             } catch (IOException e) {
                 log.error("Ocurrió un error de IO", e);
             }
+
         }
         return repositorioRecetas;
     }
+
+    public List<Receta> obtenerListaRecetas() {
+        log.info("Entrando en la función add");
+        return repositorioRecetas;
+    }
+
+
+
 
     public Receta edit(Receta r) {
         log.info("Se esta editando la receta {}", r);
@@ -76,13 +125,20 @@ public class BookService {
         log.info("Receta encontrada {}", receta);
 
         if (receta != null) {
-            repositorioRecetas.set(repositorioRecetas.indexOf(receta), r);
+            int index = repositorioRecetas.indexOf(receta);
+            repositorioRecetas.set(index, r);
         } else {
-            repositorioRecetas.add(r);
+            log.error("Receta no encontrada para editar");
         }
 
         return r;
-
     }
-
+    public void copyFile() throws IOException {
+        if (sourceResource.exists()) {
+            try (InputStream inputStream = sourceResource.getInputStream()) {
+                Path targetPath = targetResource.getFile().toPath();
+                Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        }
+    }
 }
