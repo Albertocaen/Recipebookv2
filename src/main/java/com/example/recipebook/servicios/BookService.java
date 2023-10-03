@@ -118,21 +118,34 @@ public class BookService {
 
 
 
-
     public Receta edit(Receta r) {
-        log.info("Se esta editando la receta {}", r);
         Receta receta = findById(r.getId());
-        log.info("Receta encontrada {}", receta);
-
         if (receta != null) {
-            int index = repositorioRecetas.indexOf(receta);
-            repositorioRecetas.set(index, r);
+            receta.setNombre(r.getNombre());
+            receta.setIngredientes(r.getIngredientes());
+            receta.setPreparacion(r.getPreparacion());
+            guardarRecetasEnArchivo();
+            return receta;
         } else {
-            log.error("Receta no encontrada para editar");
+          return null;
         }
-
-        return r;
     }
+    public void guardarRecetasEnArchivo() {
+        try {
+            FileWriter fileWriter = new FileWriter(targetResource.getFile(), false);
+
+            for (Receta receta : repositorioRecetas) {
+                fileWriter.write(receta.getId() + " | " + receta.getNombre() + " | " + receta.getIngredientes() + " | " + receta.getPreparacion() + "\n");
+            }
+
+            fileWriter.close();
+            log.info("Se ha guardado la lista de recetas en el archivo de texto");
+        } catch (IOException e) {
+            log.error("Ocurrió un error al escribir en el archivo", e);
+            throw new RuntimeException(e);
+        }
+    }
+
     public void copyFile() throws IOException {
         if (sourceResource.exists()) {
             try (InputStream inputStream = sourceResource.getInputStream()) {

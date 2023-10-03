@@ -72,7 +72,7 @@ public class RecetaController {
 
         Receta receta = servicio.findById(id);
         if (receta != null) {
-            model.addAttribute("mascotaDto", receta);
+            model.addAttribute("recetaDto", receta);
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
@@ -90,6 +90,15 @@ public class RecetaController {
             servicio.edit(receta);
             return "redirect:/receta/list";
         }
+    }
+    @GetMapping("/receta/verRecetaCompleta/{id}")
+    public String verRecetaCompleta(@PathVariable int id, Model model) {
+
+        Receta receta = servicio.findById(id);
+
+        model.addAttribute("recetaDto", receta);
+        return "recetacompleta";
+
     }
 
 }
