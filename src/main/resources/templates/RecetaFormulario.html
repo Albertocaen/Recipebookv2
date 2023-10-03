@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link th:href="@{/css/estilo.css}" rel="stylesheet">
+</head>
+<body>
+<form method="post" action="#"
+      th:action="${modoEdicion} ? @{/receta/edit/submit} : @{/receta/new/submit}"
+      th:object="${recetaDto}">
+    <h4 th:text="${modoEdicion} ? 'Editar receta' : 'Nueva receta'">Nueva receta</h4>
+    <div>
+        <div class="input-group mb-3"
+             th:classappend="${#fields.hasErrors('id')} ? 'has-error'">
+            <label class="form-label" for="id" >Id</label>
+            <input class="form-control" type="number" id="id" placeholder="id" th:field="*{id}"
+                   th:attrappend="readonly=${recetaDto.id != null and modoEdicion} ? 'readonly' : null" />
+            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"
+                  class="help-block" id="id-error">Errores</span>
+        </div>
+        <div class="input-group mb-3"
+             th:classappend="${#fields.hasErrors('nombre')} ? 'has-error'">
+            <label class="form-label" for="nombre" >Nombre</label>
+            <input class="form-control" type="text" id="nombre" placeholder="Nombre" th:field="*{nombre}" />
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+                  class="help-block" id="nombre-error">Errores</span>
+        </div>
+        <div class="input-group mb-3"
+             th:classappend="${#fields.hasErrors('Ingredientes')} ? 'has-error'">
+            <label class="form-label" for="Ingredient" >Igredientes</label>
+            <input class="form-control" type="text" id="Ingredient" placeholder="Ingredientes" th:field="*{ingredientes}" />
+            <span th:if="${#fields.hasErrors('Ingredientes')}" th:errors="*{ingredientes}"
+                  class="help-block" id="ingredientes-error">Errores</span>
+        </div>
+        <div class="input-group mb-3">
+            <label class="form-label" for="Preparacion" >Preparacion</label>
+            <input class="form-control" type="text" id="Preparacion" placeholder="Preparacion" th:field="*{preparacion}" />
+        </div>
+
+
+
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

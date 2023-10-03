@@ -1,0 +1,3 @@
+1 | Receta | Ingredientes | Preparación
+2 |Receta  | Ingredientes | Preparación
+3 | Receta | Ingredientes | Preparación
