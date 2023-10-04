@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
+import java.util.List;
+
 @Slf4j
 // Si no queremos usar @Autowired usamos Lombok para inject
 @RequiredArgsConstructor
@@ -20,10 +23,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RecetaController {
     private final BookService servicio;
 
-    @GetMapping({"/", "receta/list"})
+    @GetMapping({ "receta/list"})
     public String listado(Model model) {
-        model.addAttribute("listaRecetas", servicio.cargarrecetas() );
+        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
+        model.addAttribute("listaRecetas", listaRecetas);
         return "list";
+    }
+    @GetMapping({"/"})
+    public String login(Model model) {
+
+        return "login";
+    }
+    @PostMapping({"/submit"})
+    public String loginSubmit(Model model){
+        log.info("Se inicia sesión");
+        return "redirect:receta/list"; // Redirigir a la página "list"
     }
 
     @GetMapping("receta/new")
@@ -50,8 +64,17 @@ public class RecetaController {
             return "RecetaFormulario";
         } else {
             servicio.add(nuevaReceta);
+            model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
+            try {
+                servicio.copyFile();
+            } catch (IOException e) {
+                // Manejar la excepción adecuadamente
+                e.printStackTrace();
+            }
+
             return "redirect:/receta/list";
         }
+
     }
 
     @GetMapping("/receta/edit/{id}")
@@ -59,7 +82,7 @@ public class RecetaController {
 
         Receta receta = servicio.findById(id);
         if (receta != null) {
-            model.addAttribute("mascotaDto", receta);
+            model.addAttribute("recetaDto", receta);
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
@@ -69,13 +92,34 @@ public class RecetaController {
 
     @PostMapping("/receta/edit/submit")
     public String editarRecetaSubmit(@Valid @ModelAttribute("recetaDto") Receta receta,
-                                      BindingResult bindingResult, Model model) {
+                                     BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", true);
-            return "FormularioReceteta";
+            return "RecetaFormulario";  // Corregir la vista aquí
         } else {
             servicio.edit(receta);
             return "redirect:/receta/list";
         }
     }
+    @GetMapping("/receta/verRecetaCompleta/{id}")
+    public String verRecetaCompleta(@PathVariable int id, Model model) {
+
+        Receta receta = servicio.findById(id);
+
+        model.addAttribute("recetaDto", receta);
+        return "recetacompleta";
+
+    }
+    @GetMapping("receta/borrar/{id}")
+    public String borrarReceta(@PathVariable("id") int id) {
+        boolean borradoExitoso = servicio.borrarRecetaById(id);
+        if (borradoExitoso) {
+            return "redirect:/receta/list";
+        } else {
+            return "recetacompleta";
+        }
+    }
 }
+
+
+

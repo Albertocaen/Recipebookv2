@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <link th:href="@{/css/estilo.css}" rel="stylesheet">
+  <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <style>
+    /* Agrega estilos CSS personalizados */
+    .acciones-cell {
+      min-height: 38px; /* Establece una altura mínima para las celdas de Acciones */
+      white-space: nowrap; /* Evita que el texto se desborde */
+    }
+  </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container ">
   <div class="card">
     <h3>Lista de recetas</h3>
     <div class="card-body">
@@ -17,16 +24,23 @@
           <th>Nombre</th>
           <th>Ingredientes</th>
           <th>Preparacion</th>
-
+          <th>Acciones</th>
         </thead>
         <tbody>
         <tr th:each="receta : ${listaRecetas}">
           <td th:text="${receta.id}">ID</td>
           <td th:text="${receta.nombre}">Nombre</td>
           <td th:text="${receta.ingredientes}">Ingredientes</td>
-          <td th:text="${receta.preparacion}">Preparacion</td>
+          <td>
+            <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">Ver Receta</a>
+          </td>
+          <td><a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary">Editar</a>
+        </tr>
+        <tr>
+
         </tbody>
       </table>
+      <td><a th:href="@{/receta/new}" class="btn btn-primary">Agregar Receta</a>
 
     </div>
   </div>

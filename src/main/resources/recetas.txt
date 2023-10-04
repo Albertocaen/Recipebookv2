@@ -1,3 +1,5 @@
-1 | Receta | Ingredientes | Preparación
-2 |Receta  | Ingredientes | Preparación
-3 | Receta | Ingredientes | Preparación
+2 |    ceceta    |   ceceta22  |        se hacen  cosas Preparación
+3 |         Receta         |         Ingredientes         |         Preparación
+4 |         Receta         |         Ingredientes         |         Preparación
+
+5 | pollo | pollo  | pollo
