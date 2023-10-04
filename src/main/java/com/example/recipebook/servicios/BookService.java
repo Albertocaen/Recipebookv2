@@ -47,27 +47,16 @@ public class BookService {
 
 
     public Receta add(Receta r) {
-        log.info("Entrando en la función add");
-        // Agrega la receta a la lista
         repositorioRecetas.add(r);
-
         try {
-            // Abre el archivo para escritura
             FileWriter fileWriter = new FileWriter(resource.getFile(), true);
-
-            // Escribe la nueva receta en el archivo
             fileWriter.write(r.getId() + " | " + r.getNombre() + " | " + r.getIngredientes() + " | " + r.getPreparacion() + "\n");
-
-            // Cierra el archivo
             fileWriter.close();
-
             log.info("Se ha agregado una receta al archivo de texto");
-
         } catch (IOException e) {
             log.error("Ocurrió un error al escribir en el archivo", e);
             throw new RuntimeException(e);
         }
-
         return r;
     }
 
@@ -112,7 +101,6 @@ public class BookService {
     }
 
     public List<Receta> obtenerListaRecetas() {
-        log.info("Entrando en la función add");
         return repositorioRecetas;
     }
 
@@ -131,6 +119,7 @@ public class BookService {
         }
     }
     public void guardarRecetasEnArchivo() {
+        log.info("Entrando en recetas");
         try {
             FileWriter fileWriter = new FileWriter(targetResource.getFile(), false);
 

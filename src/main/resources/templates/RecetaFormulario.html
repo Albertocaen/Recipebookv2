@@ -16,8 +16,7 @@
             <label class="form-label" for="id" >Id</label>
             <input class="form-control" type="number" id="id" placeholder="id" th:field="*{id}"
                    th:attrappend="readonly=${recetaDto.id != null and modoEdicion} ? 'readonly' : null" />
-            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"
-                  class="help-block" id="id-error">Errores</span>
+            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
         </div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('nombre')} ? 'has-error'">
