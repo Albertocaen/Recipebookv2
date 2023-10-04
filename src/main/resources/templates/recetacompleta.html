@@ -26,10 +26,12 @@
                     <td th:text="${recetaDto.ingredientes}">Ingredientes</td>
                     <td th:text="${recetaDto.preparacion}">Preparacion</td>
 
+
                 </tbody>
             </table>
 
          <a th:href="@{/receta/list}"  class="btn btn-primary">Atras</a>
+            <a th:href="@{'/receta/borrar/' + ${recetaDto.id}}" class="btn btn-primary">Borrar</a>
 
 
         </div>

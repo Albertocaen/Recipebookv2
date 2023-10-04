@@ -100,5 +100,16 @@ public class RecetaController {
         return "recetacompleta";
 
     }
-
+    @GetMapping("receta/borrar/{id}")
+    public String borrarReceta(@PathVariable("id") int id) {
+        boolean borradoExitoso = servicio.borrarRecetaById(id);
+        if (borradoExitoso) {
+            return "redirect:/receta/list";
+        } else {
+            return "recetacompleta";
+        }
+    }
 }
+
+
+

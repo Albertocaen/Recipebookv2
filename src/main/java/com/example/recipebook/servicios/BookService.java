@@ -154,4 +154,16 @@ public class BookService {
             }
         }
     }
-}
+    public boolean borrarRecetaById(int id){
+        List<Receta> recetasNoBorradas = new ArrayList<>();
+        for (Receta receta : repositorioRecetas) {
+            if (receta.getId() != id) {
+                recetasNoBorradas.add(receta);
+            }
+        }
+        repositorioRecetas = recetasNoBorradas;
+        guardarRecetasEnArchivo();
+        return true;
+    }
+
+    }
