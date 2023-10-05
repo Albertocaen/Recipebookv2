@@ -1,0 +1,62 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.recipe-card {
+    width: calc(33.33% - 20px); /* Calculamos el ancho de las tarjetas para 3 en una fila */
+    margin: 10px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    width: 100%;
+    height: 300px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.card-front,
+.card-back {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    background-image: url('../img/cartaimg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* Mostrar solo las primeras 6 tarjetas */
+.recipe-card:nth-child(n+7) {
+    display: none;
+}
+
+.recipe-card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+.titulo{
+    color: #fff; /* Color del texto, en este caso blanco para contraste */
+    background-color: #8B4513; /* Fondo marrón */
+    padding: 10px 20px; /* Espaciado interno para mejorar la legibilidad */
+    font-size: 24px; /* Tamaño de la fuente */
+    font-weight: bold; /* Estilo de fuente en negrita */
+    text-align: center; /* Alineación central del texto */
+}
+body{
+    background-image: url('../img/fondoLogin.jpg');
+}
