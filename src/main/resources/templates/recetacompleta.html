@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-<title>Title</title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<head th:replace="fragmentos/head::encabezado(~{::title}, ~{})">
+    <title>Formulario</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -31,7 +29,7 @@
             </table>
 
          <a th:href="@{/receta/list}"  class="btn btn-primary">Atras</a>
-            <a th:href="@{'/receta/borrar/' + ${recetaDto.id}}" class="btn btn-primary">Borrar</a>
+
 
 
         </div>

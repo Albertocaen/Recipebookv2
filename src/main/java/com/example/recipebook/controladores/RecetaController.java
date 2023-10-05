@@ -29,16 +29,7 @@ public class RecetaController {
         model.addAttribute("listaRecetas", listaRecetas);
         return "list";
     }
-    @GetMapping({"/"})
-    public String login(Model model) {
 
-        return "login";
-    }
-    @PostMapping({"/submit"})
-    public String loginSubmit(Model model){
-        log.info("Se inicia sesión");
-        return "redirect:receta/list"; // Redirigir a la página "list"
-    }
 
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {

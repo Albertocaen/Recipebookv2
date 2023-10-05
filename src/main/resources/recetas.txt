@@ -1,25 +1,15 @@
-2 |    ceceta    |   ceceta22  |        se hacen  cosas Preparación
-3 |         Receta         |         Ingredientes         |         Preparación
-4 |         Receta         |         Ingredientes         |         Preparación
-<<<<<<< HEAD
-
-5 | pollo | pollo  | pollo
-=======
-5 |         Receta         |         Ingredientes         |         Preparación
-6 |         Receta         |         Ingredientes         |         Preparación
-7 |         Receta         |         Ingredientes         |         Preparación
-8 |         Receta         |         Ingredientes         |         Preparación
-9 |         Receta         |         Ingredientes         |         Preparación
-10 |         Receta         |         Ingredientes         |         Preparación
-11 |         valentin         |         valentin         |         valentin
-12 |         valintintin         |         vladimir         |         vladimir
-3242345 |         34534         |         234234         |         rwerwe
-14 |         bimbo         |         bimbo         |         bimbo
-22223 |         porfavor         |         porfavor         |         porfavor
-222222 |         mequieromatardios         |         mequieromatardios         |         mequieromatardios
-21 |         intento         |         intento         |         intento
-300 |         intento4         |         intento4         |         intento4
-666 |         estasi         |         estasi         |         estasi
-99 |         porfa         |         porfa         |         porfa
-200 |      miguel      |      algunos      |      un vainero
->>>>>>> upstream/main
+7 |               Receta               |               Ingredientes               |               Preparación
+8 |               Receta               |               Ingredientes               |               Preparación
+9 |               Receta               |               Ingredientes               |               Preparación
+10 |               Receta               |               Ingredientes               |               Preparación
+11 |               valentin               |               valentin               |               valentin
+12 |               valintintin               |               vladimir               |               vladimir
+3242345 |               34534               |               234234               |               rwerwe
+14 |               bimbo               |               bimbo               |               bimbo
+22223 |               porfavor               |               porfavor               |               porfavor
+222222 |               mequieromatardios               |               mequieromatardios               |               mequieromatardios
+21 |               intento               |               intento               |               intento
+300 |               intento4               |               intento4               |               intento4
+666 |               estasi               |               estasi               |               estasi
+99 |               porfa               |               porfa               |               porfa
+200 |            miguel            |            algunos            |            un vainero

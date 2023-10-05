@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Builder
 @Data
@@ -25,4 +24,5 @@ public class Receta {
     private String Ingredientes;
     @NotBlank (message = "El campo Preparación no puede estar vacío")
     private String preparacion;
+
 }
