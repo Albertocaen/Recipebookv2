@@ -1,0 +1,38 @@
+<nav th:fragment="nav-menu" class="navbar navbar-expand-md navbar-light bg-brown">
+    <div class="container">
+        <a class="navbar-brand" href="#">Recetas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/receta/list}">Listado</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/receta/new}">Añadir Receta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary" th:href="@{/}">Iniciar Sesión</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="idiomaDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Idioma
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
+                        <li><a class="dropdown-item" th:href="@{''(lang=es_ES)}">Español</a></li>
+                        <li><a class="dropdown-item" th:href="@{''(lang=en_US)}">Inglés</a></li>
+                    </ul>
+                    </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>

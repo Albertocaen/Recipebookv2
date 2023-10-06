@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragmentos/head::encabezado(~{::title}, ~{::link})">
+<head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
     <title>Title</title>
   <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
 </head>

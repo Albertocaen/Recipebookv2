@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recetas</title>
+<head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
+  <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
+  <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
 </head>
 <body>
-
+<nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container">
   <h1 class="titulo">Recetas más recomendadas</h1>
   <div class="card-container">
@@ -24,6 +23,6 @@
     </div>
   </div>
 </div>
-
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
