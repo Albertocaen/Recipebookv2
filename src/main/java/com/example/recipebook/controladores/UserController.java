@@ -14,17 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UserController {
     private final UserService service;
-    @GetMapping({"/"})
+    @GetMapping({"/login"})
     public String login() {
         return "login";
     }
-    @PostMapping({"/submit"})
+    @PostMapping({"login/submit"})
     public String loginSubmit(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         log.info("Intento de inicio de sesión para el usuario: {}", username);
         if (service.validarCredenciales(username, password)) {
+            log.info("ssss");
             return "redirect:receta/list";
         } else {
             model.addAttribute("error", "Credenciales inválidas. Por favor, inténtalo de nuevo.");
+
             return "login";
         }
     }

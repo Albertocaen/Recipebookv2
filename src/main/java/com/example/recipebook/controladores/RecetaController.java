@@ -30,6 +30,12 @@ public class RecetaController {
         return "list";
     }
 
+    @GetMapping({ "login/receta/list"})
+    public String listadoLog(Model model) {
+        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
+        model.addAttribute("listaRecetas", listaRecetas);
+        return "list";
+    }
 
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {
@@ -111,7 +117,7 @@ public class RecetaController {
         }
     }
 //////////////////////////////////
-    @GetMapping({ "receta/inicio"})
+    @GetMapping({ "/"})
     public String inicio(Model model) {
         List<Receta> listaRecetas = servicio.obtenerListaRecetas();
         model.addAttribute("listaRecetas", listaRecetas);
