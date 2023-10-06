@@ -1,6 +1,6 @@
 /* Estilo general del menú */
 .navbar {
-    background-color: saddlebrown; /* Color de fondo */
+    background-color: green; /* Color de fondo */
     border-bottom: 1px solid #dee2e6; /* Línea inferior */
 }
 
@@ -10,7 +10,7 @@
     color: white; /* Color del texto */
 }
 .bg-brown {
-    background-color: #8B4513; /* Cambia esto al color marrón que prefieras */
+    background-color: green; /* Cambia esto al color marrón que prefieras */
 }
 
 /* Botón hamburguesa */

@@ -31,18 +31,21 @@
     font-size: 18px;
     border: 1px solid #ccc;
     padding: 10px;
-    background-color: #fff;
-    background-image: url('../img/cartaimg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: darkseagreen;
+
 }
 
 .card-back {
     transform: rotateY(180deg);
 }
+.card-front{
+    background-image: url('../img/comidas.jpg');
 
-/* Mostrar solo las primeras 6 tarjetas */
-.recipe-card:nth-child(n+7) {
+    background-repeat: no-repeat;
+}
+
+/* Mostrar solo las primeras 3 tarjetas */
+.recipe-card:nth-child(n+4) {
     display: none;
 }
 
@@ -50,15 +53,15 @@
     transform: rotateY(180deg);
 }
 .titulo{
-    color: #fff; /* Color del texto, en este caso blanco para contraste */
-    background-color: #8B4513; /* Fondo marrón */
-    padding: 10px 20px; /* Espaciado interno para mejorar la legibilidad */
-    font-size: 24px; /* Tamaño de la fuente */
-    font-weight: bold; /* Estilo de fuente en negrita */
-    text-align: center; /* Alineación central del texto */
+    color: #fff;
+    background-color: green;
+    padding: 10px 20px; /
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center; /
 }
 body{
-    background-image: url('../img/fondoLogin.jpg');
+    background-image: url('../img/verdura.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
