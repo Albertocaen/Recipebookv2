@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     private final UserService service;
     @GetMapping({"/login"})
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("intentoLog", false);
         return "login";
     }
     @PostMapping({"login/submit"})
