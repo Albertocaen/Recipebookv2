@@ -10,32 +10,32 @@
 <form method="post" action="#"
       th:action="${modoEdicion} ? @{/receta/edit/submit} : @{/receta/new/submit}"
       th:object="${recetaDto}">
-    <h4 th:text="${modoEdicion} ? 'Editar receta' : 'Nueva receta'">Nueva receta</h4>
+    <h4 th:text="${modoEdicion} ? #{receta.formulario.titulo2} : #{receta.formulario.titulo1}">Nueva receta</h4>
     <div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('id')} ? 'has-error'">
-            <label class="form-label" for="id" >Id</label>
-            <input class="form-control" type="number" id="id" placeholder="id" th:field="*{id}"
+            <label class="form-label" for="id" th:text="#{receta.formulario.id}">Id</label>
+            <input class="form-control" type="number" id="id"  th:field="*{id}"
                    th:attrappend="readonly=${recetaDto.id != null and modoEdicion} ? 'readonly' : null" />
             <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
         </div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('nombre')} ? 'has-error'">
-            <label class="form-label" for="nombre" >Nombre</label>
-            <input class="form-control" type="text" id="nombre" placeholder="Nombre" th:field="*{nombre}" />
+            <label class="form-label" for="nombre" th:text="#{receta.formulario.nombre}">Nombre</label>
+            <input class="form-control" type="text" id="nombre"  th:field="*{nombre}" />
             <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
                   class="help-block" id="nombre-error">Errores</span>
         </div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('Ingredientes')} ? 'has-error'">
-            <label class="form-label" for="Ingredient" >Igredientes</label>
-            <input class="form-control" type="text" id="Ingredient" placeholder="Ingredientes" th:field="*{ingredientes}" />
+            <label class="form-label" for="Ingredient" th:text="#{receta.formulario.Ingredientes}">Igredientes</label>
+            <input class="form-control" type="text" id="Ingredient"  th:field="*{ingredientes}" />
             <span th:if="${#fields.hasErrors('Ingredientes')}" th:errors="*{ingredientes}"
                   class="help-block" id="ingredientes-error">Errores</span>
         </div>
         <div class="input-group mb-3">
-            <label class="form-label" for="Preparacion" >Preparacion</label>
-            <textarea class="form-control" id="Preparacion" placeholder="Preparación" th:field="*{preparacion}" rows="5"></textarea>
+            <label class="form-label" for="Preparacion" th:text="#{receta.formulario.Preparacion}">Preparacion</label>
+            <textarea class="form-control" id="Preparacion"  th:field="*{preparacion}" rows="5"></textarea>
         </div>
 
 
@@ -56,15 +56,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Borrar mascota</h5>
+                    <h5 class="modal-title" th:text="#{borrar.receta}">Borrar mascota</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body">
-                    <p>¿Confirma el borrado de esta mascota?</p>
+                <div class="modal-body" >
+                    <p th:text="#{borrar.confirmacion}">¿Confirma el borrado de esta mascota?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <a th:href="@{/receta/borrar/{id}(id=${recetaDto.id})}" class="btn btn-primary">Aceptar</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{borrar.cancelar}">Cancelar</button>
+                    <a th:href="@{/receta/borrar/{id}(id=${recetaDto.id})}" class="btn btn-primary" th:text="#{borrar.aceptar}">Aceptar</a>
                 </div>
             </div>
         </div>

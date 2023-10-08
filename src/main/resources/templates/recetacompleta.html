@@ -7,7 +7,7 @@
 <body>
 <div class="container-fluid">
     <div class="card">
-        <h3>Receta</h3>
+        <h3 th:text="#{receta.completa.titulo}">Receta</h3>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
@@ -29,7 +29,7 @@
                 </tbody>
             </table>
 
-         <a th:href="@{/receta/list}"  class="btn btn-primary">Atras</a>
+         <a th:href="@{/receta/list}" th:text="#{receta.atras}" class="btn btn-primary">Atras</a>
 
 
 
