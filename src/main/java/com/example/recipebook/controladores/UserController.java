@@ -19,6 +19,7 @@ public class UserController {
         model.addAttribute("intentoLog", false);
         return "login";
     }
+
     @PostMapping({"login/submit"})
     public String loginSubmit(@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
         log.info("Intento de inicio de sesión para el usuario: {}", username);
@@ -26,8 +27,7 @@ public class UserController {
             log.info("ssss");
             return "redirect:receta/list";
         } else {
-            model.addAttribute("error", "Credenciales inválidas. Por favor, inténtalo de nuevo.");
-
+            model.addAttribute("error", "login.alerta");
             return "login";
         }
     }
