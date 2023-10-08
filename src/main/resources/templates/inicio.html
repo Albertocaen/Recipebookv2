@@ -8,7 +8,7 @@
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container">
-  <h1 class="titulo">Recetas más recomendadas</h1>
+  <h1 th:text="#{titulo.pagina.inicio}" class="titulo">Recetas más recomendadas</h1>
   <div class="card-container">
     <div th:each="receta, iterStat : ${listaRecetas}" class="recipe-card">
       <div class="card-inner">
