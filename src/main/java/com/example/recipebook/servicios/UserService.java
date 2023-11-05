@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class UserService {
+public class   UserService {
     List<User> users=new ArrayList<>();
 
     public UserService() {
