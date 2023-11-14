@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
     <title>Title</title>
     <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
+    <link  th:href="@{/css/estiloNav.css}" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="login-container">
+
     <h2 th:text="#{login.titulo}">Iniciar Sesión</h2>
-    <form method="post" action="/login/submit">
+    <form sec:authorize="!isAuthenticated()" method="post" th:action="@{/login}">
+        <span th:if="${param.error}" th:text="#{login.alerta}"></span>
         <div class="form-group">
             <label for="username"  th:text="#{login.usuario}">Usuario:</label>
             <input type="text" id="username" name="username">
@@ -18,11 +20,10 @@
             <label for="password" th:text="#{login.clave}">Contraseña:</label>
             <input type="password" id="password" name="password">
         </div>
-        <div th:if="${error}" class="alert alert-danger">
-            <p th:text="#{${error}}">Error</p>
-        </div>
         <button type="submit" th:text="#{login.submit}">Iniciar Sesión</button>
     </form>
+    <h1 sec:authorize="isAuthenticated()" class="display-4">Anda a trabajar <span sec:authentication="name"></span></h1>
+
 </div>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>

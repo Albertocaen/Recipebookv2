@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
     <title>Formulario</title>
     <link th:href="@{/css/estiloFormulario.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
-
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
-<form method="post" action="#"
+<form sec:authorize="hasRole('ADMIN')" method="post" action="#"
       th:action="${modoEdicion} ? @{/receta/edit/submit} : @{/receta/new/submit}"
       th:object="${recetaDto}" >
     <h4 th:text="${modoEdicion} ? #{receta.formulario.titulo2} : #{receta.formulario.titulo1}">Nueva receta</h4>

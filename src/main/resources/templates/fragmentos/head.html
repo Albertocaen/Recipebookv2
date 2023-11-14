@@ -6,9 +6,11 @@
     <title th:replace="${titulo}">Título</title>
 
 
+
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
-
     <th:block th:replace="${enlaces}" />
+    <script th:src="@{/static/music/music.js}"></script>
+
 </head>

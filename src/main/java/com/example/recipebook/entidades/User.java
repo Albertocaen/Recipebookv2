@@ -11,4 +11,5 @@ public class User {
     private String username;
     @NotBlank (message = "El campo Nombre no puede estar vacío")
     private String password;
+    private String role;
 }

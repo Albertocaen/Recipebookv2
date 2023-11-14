@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
   <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
@@ -10,7 +10,7 @@
 <div class="container">
   <h1 th:text="#{titulo.pagina.inicio}" class="titulo">Recetas más recomendadas</h1>
   <div class="card-container">
-    <div th:each="receta, iterStat : ${listaRecetas}" class="recipe-card">
+    <div th:each="receta, iterStat : ${Recetas}" class="recipe-card">
       <div class="card-inner">
         <div class="card-front">
 
@@ -22,6 +22,7 @@
     </div>
   </div>
 </div>
+
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

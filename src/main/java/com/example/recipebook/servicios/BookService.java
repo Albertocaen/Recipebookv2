@@ -2,8 +2,10 @@ package com.example.recipebook.servicios;
 
 import com.example.recipebook.entidades.Receta;
 import com.example.recipebook.entidades.User;
+import com.example.recipebook.repositorio.RecetaRepositorio;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -14,13 +16,15 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
 @Service
 public class BookService {
+
+    @Autowired
+    private RecetaRepositorio recetaRepository;
     private List<Receta> repositorioRecetas = new ArrayList<>();
 
     @Value("classpath:/recetas.txt")
@@ -101,6 +105,17 @@ public class BookService {
         }
         return repositorioRecetas;
     }
+    @PostConstruct
+    public void cargarRecetasDesdeArchivoBases() {
+        if (!recetasCargadas || recetaRepository.count() == 0) {
+            List<Receta> recetasDesdeArchivo = cargarRecetasDesdeArchivo();
+            recetaRepository.saveAll(recetasDesdeArchivo);
+            recetasCargadas = true;
+            log.info("Recetas cargadas desde el archivo en la base de datos.");
+        } else {
+            log.info("Las recetas ya han sido cargadas. No es necesario cargar desde el archivo.");
+        }
+    }
 
     public List<Receta> obtenerListaRecetas() {
         return repositorioRecetas;
@@ -117,7 +132,7 @@ public class BookService {
             guardarRecetasEnArchivo();
             return receta;
         } else {
-          return null;
+            return null;
         }
     }
     public void guardarRecetasEnArchivo() {
@@ -156,5 +171,23 @@ public class BookService {
         guardarRecetasEnArchivo();
         return true;
     }
-
+    private Map<Integer, Integer> visitasPorReceta = new HashMap<>();
+    public Receta obtenerRecetaYActualizarVisitas(int id) {
+        Receta receta = findById(id);
+        if (receta != null) {
+            int visitas = visitasPorReceta.getOrDefault(id, 0);
+            visitasPorReceta.put(id, visitas + 1);
+        }
+        return receta;
     }
+
+    public List<Receta> obtenerRecetasOrdenadasPorVisitas() {
+        // Cargar o asegurarse de que las recetas estén cargadas
+        cargarRecetasDesdeArchivo();
+
+        // Ordenar la lista de recetas por el número de visitas (de mayor a menor)
+        repositorioRecetas.sort(Comparator.comparingInt((Receta r) -> visitasPorReceta.getOrDefault(r.getId(), 0)).reversed());
+
+        return repositorioRecetas;
+    }
+}
