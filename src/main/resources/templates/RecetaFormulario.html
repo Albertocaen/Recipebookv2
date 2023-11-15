@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
     <title>Formulario</title>
     <link th:href="@{/css/estiloFormulario.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
+
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
-<form sec:authorize="hasRole('ADMIN')" method="post" action="#"
+<form method="post" action="#" enctype="multipart/form-data"
       th:action="${modoEdicion} ? @{/receta/edit/submit} : @{/receta/new/submit}"
       th:object="${recetaDto}" >
     <h4 th:text="${modoEdicion} ? #{receta.formulario.titulo2} : #{receta.formulario.titulo1}">Nueva receta</h4>
@@ -38,7 +38,13 @@
             <label class="form-label" for="Preparacion" th:text="#{receta.formulario.Preparacion}">Preparacion</label>
             <textarea class="form-control text-danger" id="Preparacion"  th:field="*{preparacion}" rows="5"></textarea>
         </div>
-
+        <div class="input-group mb-3">
+            <label for="fichero">Foto</label>
+            <input type="hidden" th:field="*{foto}">
+            <img th:if="${recetaDto.foto != null}"
+                 id="image-preview" th:src="@{*{foto}}" alt="imagen previa de mascota">
+            <input type="file" id="fichero" name="fichero" class="form-control" >
+        </div>
 
 
     </div>

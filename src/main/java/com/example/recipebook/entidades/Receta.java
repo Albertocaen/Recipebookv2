@@ -30,5 +30,5 @@ public class Receta {
     @Column(columnDefinition = "TEXT")
     @NotBlank (message = "El campo Preparación no puede estar vacío")
     private String preparacion;
-
+    private String foto;
 }
