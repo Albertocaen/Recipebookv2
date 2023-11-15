@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
-    <title>Title</title>
+  <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
-  <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
+  <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
@@ -25,24 +24,24 @@
           <td th:text="${receta.id}">ID</td>
           <td th:text="${receta.nombre}">Nombre</td>
           <td th:text="${receta.ingredientes}">Ingredientes</td>
+          <td><img th:src="@{${receta.foto}}" alt="Foto mascota" width="64px"></td>
           <td>
             <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">
               <i class="fas fa-eye fa-2x"></i>
             </a>
           </td>
-          <td><a th:href="@{'/receta/edit/' + ${receta.id}}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:text="#{lista.editar}">Editar</a>
+          <td><a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary" th:text="#{lista.editar}">Editar</a>
 
         </tr>
         <tr>
 
         </tbody>
       </table>
-      <td><a th:href="@{/receta/new}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
+      <td><a th:href="@{/receta/new}" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
 
     </div>
   </div>
 </div>
-
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

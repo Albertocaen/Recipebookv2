@@ -2,6 +2,7 @@ package com.example.recipebook.controladores;
 
 import com.example.recipebook.entidades.Receta;
 import com.example.recipebook.servicios.BookService;
+import com.example.recipebook.storage.StorageService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,6 +10,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,6 +37,7 @@ import static org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_
 @Controller
 public class RecetaController {
     private final BookService servicio;
+    private final StorageService servicioAlmacenamiento;
     private static final int COOKIE_MAX_AGE = 604800; // 7 * 24 * 60 * 60 = 604800 (7 días)
     private static final String CONTADOR_NAME_INICIO = "numVisitasIndex";
     private static final String CONTADOR_NAME_APP = "numVisitasApp";
@@ -112,10 +118,10 @@ public class RecetaController {
         model.addAttribute("listaRecetas", listaRecetas);
         return "list";
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {
         log.info("Se esta agregando una nueva receta");
+
         model.addAttribute("recetaDto", new Receta());
         model.addAttribute("modoEdicion", false);
         return "RecetaFormulario";
@@ -125,8 +131,9 @@ public class RecetaController {
     //@ModelAtribute equivaldría a esto
     //public String nuevaMascotaSubmit(Mascota nuevaMascota, Model model) {
     //    Mascota nuevaMascota = model.getAttribute("mascotaDto");
-    public String nuevaRecetaSubmit(@Valid @ModelAttribute("recetaDto") Receta nuevaReceta,
-                                     BindingResult bindingResult, Model model) {
+    public String nuevaRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
+                                    @Valid @ModelAttribute("recetaDto") Receta nuevaReceta,
+                                    BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", false);
             return "RecetaFormulario";
@@ -137,16 +144,30 @@ public class RecetaController {
         } else {
             servicio.add(nuevaReceta);
             model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
-            try {
-                servicio.copyFile();
-            } catch (IOException e) {
-                // Manejar la excepción adecuadamente
-                e.printStackTrace();
+            if (!fichero.isEmpty()) {
+                log.info("hay foto");
+                String fotoFilename = servicioAlmacenamiento.store(fichero, nuevaReceta.getId());
+                nuevaReceta.setFoto(MvcUriComponentsBuilder
+                        .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
+                log.info("uri de la foto de la mascota {}", nuevaReceta.getFoto());
+                try {
+                    servicio.copyFile();
+                } catch (IOException e) {
+                    // Manejar la excepción adecuadamente
+                    e.printStackTrace();
+                }
+
+
             }
-
             return "redirect:/receta/list";
-        }
 
+        }
+    }
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        Resource file = servicioAlmacenamiento.loadAsResource(filename);
+        return ResponseEntity.ok().body(file);
     }
 
     @GetMapping("/receta/edit/{id}")
@@ -158,17 +179,27 @@ public class RecetaController {
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
+
             return "redirect:/receta/new";
         }
     }
 
     @PostMapping("/receta/edit/submit")
-    public String editarRecetaSubmit(@Valid @ModelAttribute("recetaDto") Receta receta,
+    public String editarRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
+                                     @Valid @ModelAttribute("recetaDto") Receta receta,
                                      BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";  // Corregir la vista aquí
         } else {
+            if (!fichero.isEmpty()){
+                log.info("hay foto");
+                String fotoFilename = servicioAlmacenamiento.store(fichero, receta.getId());
+                receta.setFoto(MvcUriComponentsBuilder
+                        .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
+
+            }
             servicio.edit(receta);
             return "redirect:/receta/list";
         }

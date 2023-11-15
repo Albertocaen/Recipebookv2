@@ -92,7 +92,7 @@ public class BookService {
                         String ingredientes = columnas[2];
                         String preparacion = columnas[3];
 
-                        Receta receta = new Receta(id, nombre, ingredientes, preparacion);
+                        Receta receta = new Receta(id, nombre, ingredientes, preparacion,null);
                         repositorioRecetas.add(receta);
                     }
                 }
@@ -130,6 +130,7 @@ public class BookService {
             receta.setIngredientes(r.getIngredientes());
             receta.setPreparacion(r.getPreparacion());
             guardarRecetasEnArchivo();
+            receta.setFoto(r.getFoto());
             return receta;
         } else {
             return null;
