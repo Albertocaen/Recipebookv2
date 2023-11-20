@@ -112,12 +112,6 @@ public class RecetaController {
         return "list";
     }
 
-    @GetMapping({ "login/receta/list"})
-    public String listadoLog(Model model) {
-        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
-        model.addAttribute("listaRecetas", listaRecetas);
-        return "list";
-    }
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {
         log.info("Se esta agregando una nueva receta");
@@ -128,9 +122,6 @@ public class RecetaController {
     }
 
     @PostMapping("receta/new/submit")
-    //@ModelAtribute equivaldría a esto
-    //public String nuevaMascotaSubmit(Mascota nuevaMascota, Model model) {
-    //    Mascota nuevaMascota = model.getAttribute("mascotaDto");
     public String nuevaRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
                                     @Valid @ModelAttribute("recetaDto") Receta nuevaReceta,
                                     BindingResult bindingResult, Model model) {
@@ -142,33 +133,34 @@ public class RecetaController {
             bindingResult.rejectValue("id", "id.existente", "ya existe este id");
             return "RecetaFormulario";
         } else {
-            servicio.add(nuevaReceta);
-            model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
+            String fotoRuta = null;
             if (!fichero.isEmpty()) {
                 log.info("hay foto");
                 String fotoFilename = servicioAlmacenamiento.store(fichero, nuevaReceta.getId());
-                nuevaReceta.setFoto(MvcUriComponentsBuilder
-                        .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
-                log.info("uri de la foto de la mascota {}", nuevaReceta.getFoto());
+                fotoRuta = MvcUriComponentsBuilder
+                        .fromMethodName(RecetaController.class, "serveFile", fotoFilename)
+                        .build().toUriString();
+
                 try {
                     servicio.copyFile();
                 } catch (IOException e) {
-                    // Manejar la excepción adecuadamente
                     e.printStackTrace();
                 }
-
-
             }
-            return "redirect:/receta/list";
+            servicio.addConFoto(nuevaReceta, fotoRuta);
 
+            model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
+
+            return "redirect:/receta/list";
         }
     }
-    @GetMapping("/files/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        Resource file = servicioAlmacenamiento.loadAsResource(filename);
-        return ResponseEntity.ok().body(file);
-    }
+
+        @GetMapping("/files/{filename:.+}")
+        @ResponseBody
+        public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+            Resource file = servicioAlmacenamiento.loadAsResource(filename);
+            return ResponseEntity.ok().body(file);
+        }
 
     @GetMapping("/receta/edit/{id}")
     public String editarRecetaForm(@PathVariable int id, Model model) {

@@ -85,26 +85,36 @@ public class BookService {
                 String linea;
 
                 while ((linea = br.readLine()) != null) {
-                    String[] columnas = linea.split("\\|"); // Dividir la línea en columnas usando el carácter '|'
+                    String[] columnas = linea.split("\\|");
                     if (columnas.length == 4) {
-                        int id = Integer.parseInt(columnas[0].trim()); // Utiliza trim() para eliminar espacios en blanco
+                        int id = Integer.parseInt(columnas[0].trim());
                         String nombre = columnas[1];
                         String ingredientes = columnas[2];
                         String preparacion = columnas[3];
+                        String foto = "/img/1.jpeg";
 
-                        Receta receta = new Receta(id, nombre, ingredientes, preparacion,null);
+                        Receta receta = new Receta(id, nombre, ingredientes, preparacion,  foto);
                         repositorioRecetas.add(receta);
                     }
                 }
+
+                // Agregar mensajes de registro
+                log.info("Recetas cargadas desde el archivo. Comprobando fotos predeterminadas.");
+
+
+
                 recetasCargadas = true;
+                log.info("Fotos predeterminadas establecidas con éxito.");
 
             } catch (IOException e) {
-                log.error("Ocurrió un error de IO", e);
+                // Agregar mensajes de registro
+                log.error("Ocurrió un error de IO durante la carga de recetas desde el archivo.", e);
             }
 
         }
         return repositorioRecetas;
     }
+
     @PostConstruct
     public void cargarRecetasDesdeArchivoBases() {
         if (!recetasCargadas || recetaRepository.count() == 0) {
@@ -188,7 +198,11 @@ public class BookService {
 
         // Ordenar la lista de recetas por el número de visitas (de mayor a menor)
         repositorioRecetas.sort(Comparator.comparingInt((Receta r) -> visitasPorReceta.getOrDefault(r.getId(), 0)).reversed());
-
         return repositorioRecetas;
+    }
+    public Receta addConFoto(Receta r, String fotoRuta) {
+        r.setFoto(fotoRuta);
+        recetaRepository.save(r);
+        return r;
     }
 }
