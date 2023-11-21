@@ -42,14 +42,5 @@ public class Receta {
     private Integer visitas;
 
 
-    public void agregarIngredientes(List<Ingrediente> nuevosIngredientes) {
-        if (ingredientes == null) {
-            ingredientes = new ArrayList<>();
-        }
 
-        for (Ingrediente ingrediente : nuevosIngredientes) {
-            ingredientes.add(ingrediente);
-            ingrediente.setReceta(this);
-        }
-    }
 }
