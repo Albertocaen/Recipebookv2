@@ -23,18 +23,21 @@
         <tr th:each="receta : ${listaRecetas}">
           <td th:text="${receta.id}">ID</td>
           <td th:text="${receta.nombre}">Nombre</td>
-          <td th:text="${receta.ingredientes}">Ingredientes</td>
-          <td><img th:src="@{${receta.foto}}" alt="Foto Receta" width="64px"></td>
+          <td>
+            <ul>
+              <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente.nombre}"></li>
+            </ul>
+          </td>
+          <td th:text="${receta.preparacion}">Preparacion</td>
           <td>
             <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">
               <i class="fas fa-eye fa-2x"></i>
             </a>
           </td>
-          <td><a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary" th:text="#{lista.editar}">Editar</a>
-
+          <td>
+            <a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary" th:text="#{lista.editar}">Editar</a>
+          </td>
         </tr>
-        <tr>
-
         </tbody>
       </table>
       <td><a th:href="@{/receta/new}" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
