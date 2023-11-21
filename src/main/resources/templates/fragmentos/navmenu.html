@@ -1,0 +1,59 @@
+<nav th:fragment="nav-menu" class="navbar navbar-expand-md navbar-light bg-brown">
+    <div class="container">
+
+        <a class="navbar-brand" th:href="@{/inicio}" th:text="#{menu.tituloNav}">Recetas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:text="#{menu.inicio}" th:href="@{/inicio}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/receta/list} " th:text="#{menu.listado}">Listado</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/receta/new}" th:text="#{menu.anadirReceta}">Añadir Receta</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <span th:text="${#authentication.name}">Opciones</span> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <span class="dropdown-item" th:text="#{header.menu.visitas} + ' App: ' + ${session.numVisitasApp}"></span>
+                        </li>
+                        <li>
+                            <span class="dropdown-item" th:text="#{header.menu.visitas} + ' index: ' + ${session.numVisitasIndex}"></span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/logout}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:if="${not #authorization.expression('isAuthenticated()')}" class="nav-link btn btn-outline-primary" th:href="@{/login}" th:text="#{menu.iniciarSesion}">Iniciar Sesión</a>
+                        </li>
+                    </ul>
+            </ul>
+            <th:block th:replace="fragmentos/music::music" />
+            <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item dropdown">
+                        <a th:text="#{menu.idioma}" class="nav-link dropdown-toggle" href="#" id="idiomaDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Idioma
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="idiomaDropdown">
+                        <li><a th:text="#{idioma.espanol}" class="dropdown-item" th:href="@{''(lang=es_ES)}">Español</a></li>
+                        <li><a th:text="#{idioma.ingles}" class="dropdown-item" th:href="@{''(lang=en_US)}">Inglés</a></li>
+                    </ul>
+                    </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>

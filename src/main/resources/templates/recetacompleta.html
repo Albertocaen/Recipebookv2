@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
+    <title>Formulario</title>
+    <link th:href="@{/css/estiloRecetaCompleta.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="card">
+        <h3 th:text="#{receta.completa.titulo}">Receta</h3>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th th:text="#{receta.completa.id}">ID</th>
+                    <th th:text="#{receta.completa.nombre}">Nombre</th>
+                    <th th:text="#{receta.completa.ingredientes}">Ingredientes</th>
+                    <th th:text="#{receta.completa.preparacion}">Preparacion</th>
+
+                </thead>
+                <tbody>
+                <tr th:each="receta : ${recetaDto.id}">
+                    <td th:text="${recetaDto.id}">ID</td>
+                    <td th:text="${recetaDto.nombre}">Nombre</td>
+                    <td th:text="${recetaDto.ingredientes}">Ingredientes</td>
+                    <td th:text="${recetaDto.preparacion}">Preparacion</td>
+
+
+                </tbody>
+            </table>
+
+         <a th:href="@{/receta/list}" th:text="#{receta.atras}" class="btn btn-primary">Atras</a>
+
+
+
+        </div>
+    </div>
+</div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+/* Estilo general del menú */
+.navbar {
+    background-color: green; /* Color de fondo */
+    border-bottom: 1px solid #dee2e6; /* Línea inferior */
+}
+
+.navbar-brand {
+    font-weight: bold; /* Texto en negrita */
+    font-size: 24px; /* Tamaño de fuente */
+    color: white; /* Color del texto */
+}
+.bg-brown {
+    background-color: green;
+}
+
+/* Botón hamburguesa */
+.navbar-toggler-icon {
+    background-color: #343a40; /* Color del ícono */
+}
+
+/* Estilo de los enlaces en el menú */
+.navbar-nav .nav-link {
+    font-weight: 500; /* Texto seminegrita */
+    color: white; /* Color del texto */
+}
+
+/* Cambio de color al pasar el mouse por encima de los enlaces */
+.navbar-nav .nav-link:hover {
+    color: black; /* Color al pasar el mouse */
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu {
+    background-color: saddlebrown; /* Color de fondo */
+    border: none; /* Sin borde */
+}
+
+.dropdown-item {
+    font-weight: 400; /* Texto normal */
+    color: white; /* Color del texto */
+}
+
+/* Cambio de color al pasar el mouse por encima del menú desplegable */
+.dropdown-item:hover {
+    background-color: black; /* Color de fondo al pasar el mouse */
+    color: #fff; /* Color del texto al pasar el mouse */
+}
+
+/* Estilo para el botón "Iniciar Sesión" similar al de la página de referencia */
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+/* Estilo para el botón "Iniciar Sesión" al hacer hover */
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Espacio entre elementos del menú */
+.navbar-nav .nav-link {
+    margin-right: 20px;
+}
+
+/* Cambiar el color de los enlaces activos */
+.navbar-nav .nav-link.active {
+    color: #007bff;
+}
+/* Estilo del botón de idioma desplegable */
+.navbar-nav .dropdown-toggle {
+    font-weight: 500; /* Texto seminegrita */
+    color: white; /* Color del texto */
+}
+
+/* Estilo del menú de idioma desplegable */
+.dropdown-menu-end {
+    background-color:white; /* Color de fondo */
+    border: none; /* Sin borde */
+}
+
+/* Estilo de los elementos del menú de idioma */
+.dropdown-menu-end .dropdown-item {
+    font-weight: 400; /* Texto normal */
+    color: white; /* Color del texto */
+}
+
+/* Cambio de color al pasar el mouse por encima de los elementos del menú de idioma */
+.dropdown-menu-end .dropdown-item:hover {
+    background-color: #007bff; /* Color de fondo al pasar el mouse */
+    color: #fff; /* Color del texto al pasar el mouse */
+}
+/* styles.css */
+
+#volumeControlContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+
+}
+
+#volumeControlLabel {
+    margin-bottom: 5px;
+    background: green;
+    border: none;
+    font-size: 20px;
+    color: white;
+}
+
+#volumeControl {
+    width: 200px;
+    height: 10px;
+    -webkit-appearance: none; /* Elimina el estilo predeterminado del control en WebKit/Blink */
+    background: greenyellow; /* Fondo del control */
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+#volumeControl::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Elimina el estilo predeterminado del pulgar en WebKit/Blink */
+    appearance: none; /* Elimina el estilo predeterminado del pulgar en otros navegadores */
+    width: 20px; /* Ancho del pulgar */
+    height: 20px; /* Altura del pulgar */
+    background: white; /* Color del pulgar */
+    border-radius: 50%; /* Bordes redondeados para que sea un círculo */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el pulgar */
+}
