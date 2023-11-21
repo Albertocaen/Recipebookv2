@@ -26,7 +26,7 @@ public class Receta {
     @NotBlank(message = "El campo Nombre no puede estar vacío")
     private String nombre;
 
-    @NotBlank(message = "El campo Ingredientes no puede estar vacío")
+
     //CascadeType.ALL: Indica que todas las operaciones de persistencia (como guardar, actualizar y eliminar)
     // en la entidad Receta deben propagarse a las entidades Ingrediente asociadas. Esto significa que si guardas o eliminas una Receta, también se aplicarán esas operaciones a los Ingredientes asociados.
     //orphanRemoval = true:  Indica que si eliminas un ingrediente de la lista de ingredientes de una receta (ingredientes),

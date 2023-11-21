@@ -37,20 +37,12 @@ public class BookService {
         return recetaRepository.findById(id);
     }
 
-    private List<Receta> repositorioRecetas = new ArrayList<>();
-
-
-    public List<Receta> obtenerListaRecetas() {
-        return repositorioRecetas;
-    }
-
-
     public Receta edit(Receta r) {
         return recetaRepository.save(r);
     }
 
-
-    public void borrarRecetaById(Receta r) {recetaRepository.delete(r);
+    public void borrarRecetaById(Receta r) {
+        recetaRepository.delete(r);
     }
 
     private Map<Integer, Integer> visitasPorReceta = new HashMap<>();
@@ -68,36 +60,41 @@ public class BookService {
     }
 
     public List<Receta> obtenerRecetasOrdenadasPorVisitas() {
-        // Cargar o asegurarse de que las recetas estén cargadas
-
-
-        // Ordenar la lista de recetas por el número de visitas (de mayor a menor)
-        repositorioRecetas.sort(Comparator.comparingInt((Receta r) -> visitasPorReceta.getOrDefault(r.getId(), 0)).reversed());
-
-        return repositorioRecetas;
+        // Obtener las recetas directamente de la base de datos y ordenarlas
+        List<Receta> recetas = recetaRepository.findAllByOrderByVisitasDesc();
+        return recetas;
     }
+
     @PostConstruct
     public void init() {
-        Receta pan = Receta.builder()
-                .nombre("pan")
-                .preparacion("Se mezcla bien hasta formar una masa y hornear")
-                .ingredientes(Arrays.asList(
-                        new Ingrediente("harina"),
-                        new Ingrediente("agua"),
-                        new Ingrediente("sal")
-                ))
-                .foto(null)
-                .build();
+        try {
+            Receta pan = Receta.builder()
+                    .nombre("pan")
+                    .preparacion("Se mezcla bien hasta formar una masa y hornear")
+                    .foto(null)
+                    .build();
 
-        recetaRepository.save(pan);
+            List<Ingrediente> ingredientesPan = Arrays.asList(
+                    crearIngrediente("harina"),
+                    crearIngrediente("agua"),
+                    crearIngrediente("sal")
+            );
 
+            pan.agregarIngredientes(ingredientesPan);
 
+            recetaRepository.save(pan);
+        } catch (Exception e) {
+            // Agrega manejo de excepciones aquí, por ejemplo, logueando el error
+            e.printStackTrace();
+        }
     }
 
-
+    private Ingrediente crearIngrediente(String nombre) {
+        Ingrediente ingrediente = new Ingrediente();
+        ingrediente.setNombre(nombre);
+        return ingrediente;
+    }
 }
-
-
 
 
 
