@@ -107,14 +107,14 @@ public class RecetaController {
 
     @GetMapping({ "receta/list"})
     public String listado(Model model) {
-        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
+        List<Receta> listaRecetas = servicio.findAll();
         model.addAttribute("listaRecetas", listaRecetas);
         return "list";
     }
 
     @GetMapping({ "login/receta/list"})
     public String listadoLog(Model model) {
-        List<Receta> listaRecetas = servicio.obtenerListaRecetas();
+        List<Receta> listaRecetas = servicio.findAll();
         model.addAttribute("listaRecetas", listaRecetas);
         return "list";
     }
@@ -139,7 +139,7 @@ public class RecetaController {
             return "RecetaFormulario";
         } else {
             servicio.add(nuevaReceta);
-            model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
+            model.addAttribute("listaRecetas", servicio.findAll()); // Actualiza el modelo con la lista actualizada de recetas
             if (!fichero.isEmpty()) {
                 log.info("hay foto");
                 String fotoFilename = servicioAlmacenamiento.store(fichero, nuevaReceta.getId());
@@ -205,6 +205,7 @@ public class RecetaController {
     public String borrarReceta(@PathVariable("id") Long id) {
         Optional<Receta>receta=servicio.findById(id);
         if (receta.isPresent()) {
+            servicio.borrarRecetaById(receta.get());
             return "redirect:/receta/list";
         } else {
             return "recetacompleta";
