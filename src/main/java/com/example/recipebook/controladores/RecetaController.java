@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -43,15 +43,17 @@ public class RecetaController {
     private static final String CONTADOR_NAME_APP = "numVisitasApp";
     @GetMapping({"/","/inicio"})
     public String inicio(Model model, HttpServletRequest request, HttpServletResponse response) {
+        // Obtener la lista de recetas ordenadas por visitas
         List<Receta> listaRecetas = servicio.obtenerRecetasOrdenadasPorVisitas();
 
-
-        // Actualizar las visitas para cada receta
-        for (Receta receta : listaRecetas) {
-            servicio.obtenerRecetaYActualizarVisitas(receta.getId());
-        }
-        // Obtener solo las primeras 3 recetas
-        List<Receta> primerasRecetas = listaRecetas.stream().limit(3).collect(Collectors.toList());
+        // Actualizar las visitas para cada receta y obtener solo las primeras 3 recetas
+        List<Receta> primerasRecetas = listaRecetas.stream()
+                .peek(receta -> {
+                    Receta recetaActualizada = servicio.obtenerRecetaYActualizarVisitas((long) receta.getId());
+                    receta.setVisitas(recetaActualizada != null ? recetaActualizada.getVisitas() : 0);
+                })
+                .limit(3)
+                .collect(Collectors.toList());
 
         // Agregar las recetas a model
         model.addAttribute("Recetas", primerasRecetas);
@@ -102,6 +104,7 @@ public class RecetaController {
         return "inicio";
     }
 
+
     @GetMapping({ "receta/list"})
     public String listado(Model model) {
         List<Receta> listaRecetas = servicio.obtenerListaRecetas();
@@ -134,10 +137,6 @@ public class RecetaController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", false);
             return "RecetaFormulario";
-        } else if (servicio.findById(nuevaReceta.getId()) != null) {
-            model.addAttribute("modoEdicion", false);
-            bindingResult.rejectValue("id", "id.existente", "ya existe este id");
-            return "RecetaFormulario";
         } else {
             servicio.add(nuevaReceta);
             model.addAttribute("listaRecetas", servicio.obtenerListaRecetas()); // Actualiza el modelo con la lista actualizada de recetas
@@ -147,8 +146,6 @@ public class RecetaController {
                 nuevaReceta.setFoto(MvcUriComponentsBuilder
                         .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
                 log.info("uri de la foto de la mascota {}", nuevaReceta.getFoto());
-
-
 
             }
             return "redirect:/receta/list";
@@ -163,10 +160,10 @@ public class RecetaController {
     }
 
     @GetMapping("/receta/edit/{id}")
-    public String editarRecetaForm(@PathVariable int id, Model model) {
+    public String editarRecetaForm(@PathVariable Long id, Model model) {
 
-        Receta receta = servicio.findById(id);
-        if (receta != null) {
+       Optional<Receta>receta=servicio.findById(id);
+        if (receta.isPresent()) {
             model.addAttribute("recetaDto", receta);
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
@@ -197,17 +194,17 @@ public class RecetaController {
         }
     }
     @GetMapping("/receta/verRecetaCompleta/{id}")
-    public String verRecetaCompleta(@PathVariable int id, Model model) {
-        Receta receta = servicio.findById(id);
+    public String verRecetaCompleta(@PathVariable Long id, Model model) {
+       Optional<Receta>receta=servicio.findById(id);
         servicio.obtenerRecetaYActualizarVisitas(id);
         model.addAttribute("recetaDto", receta);
         return "recetacompleta";
 
     }
     @GetMapping("receta/borrar/{id}")
-    public String borrarReceta(@PathVariable("id") int id) {
-        boolean borradoExitoso = servicio.borrarRecetaById(id);
-        if (borradoExitoso) {
+    public String borrarReceta(@PathVariable("id") Long id) {
+        Optional<Receta>receta=servicio.findById(id);
+        if (receta.isPresent()) {
             return "redirect:/receta/list";
         } else {
             return "recetacompleta";

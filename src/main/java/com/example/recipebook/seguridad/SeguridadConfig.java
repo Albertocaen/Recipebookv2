@@ -66,7 +66,7 @@ public class SeguridadConfig   {
         return http.build();
     }
     @Configuration
-    public class WebConfig implements WebMvcConfigurer {
+    public  class WebConfig implements WebMvcConfigurer {
 
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {

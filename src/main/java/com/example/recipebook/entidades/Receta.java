@@ -1,34 +1,55 @@
 package com.example.recipebook.entidades;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Receta")
 public class Receta {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-    @NotBlank (message = "El campo Nombre no puede estar vacío")
+
+    @NotBlank(message = "El campo Nombre no puede estar vacío")
     private String nombre;
-    @NotBlank (message = "El campo Ingredientes no puede estar vacío")
-    private String Ingredientes;
+
+    @NotBlank(message = "El campo Ingredientes no puede estar vacío")
+    //CascadeType.ALL: Indica que todas las operaciones de persistencia (como guardar, actualizar y eliminar)
+    // en la entidad Receta deben propagarse a las entidades Ingrediente asociadas. Esto significa que si guardas o eliminas una Receta, también se aplicarán esas operaciones a los Ingredientes asociados.
+    //orphanRemoval = true:  Indica que si eliminas un ingrediente de la lista de ingredientes de una receta (ingredientes),
+    // y ese ingrediente no está asociado con ninguna otra receta, también se eliminará de la base de datos.
+    @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingrediente> ingredientes;
+
+
     @Column(columnDefinition = "TEXT")
-    @NotBlank (message = "El campo Preparación no puede estar vacío")
+    @NotBlank(message = "El campo Preparación no puede estar vacío")
     private String preparacion;
     private String foto;
+    private Integer visitas;
+
+
+    public void agregarIngredientes(List<Ingrediente> nuevosIngredientes) {
+        if (ingredientes == null) {
+            ingredientes = new ArrayList<>();
+        }
+
+        for (Ingrediente ingrediente : nuevosIngredientes) {
+            ingredientes.add(ingrediente);
+            ingrediente.setReceta(this);
+        }
+    }
 }
