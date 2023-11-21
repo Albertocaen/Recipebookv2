@@ -71,16 +71,13 @@ public class BookService {
             Receta pan = Receta.builder()
                     .nombre("pan")
                     .preparacion("Se mezcla bien hasta formar una masa y hornear")
+                    .ingredientes(Arrays.asList(
+                            Ingrediente.builder().nombre("Harina").build(),
+                            Ingrediente.builder().nombre("Huevo").build(),
+                            Ingrediente.builder().nombre("Chimichanga").build()
+                    ))
                     .foto(null)
                     .build();
-
-            List<Ingrediente> ingredientesPan = Arrays.asList(
-                    crearIngrediente("harina"),
-                    crearIngrediente("agua"),
-                    crearIngrediente("sal")
-            );
-
-            pan.agregarIngredientes(ingredientesPan);
 
             recetaRepository.save(pan);
         } catch (Exception e) {
@@ -89,11 +86,6 @@ public class BookService {
         }
     }
 
-    private Ingrediente crearIngrediente(String nombre) {
-        Ingrediente ingrediente = new Ingrediente();
-        ingrediente.setNombre(nombre);
-        return ingrediente;
-    }
 }
 
 
