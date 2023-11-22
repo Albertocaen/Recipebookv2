@@ -1,5 +1,6 @@
 package com.example.recipebook.controladores;
 
+import com.example.recipebook.entidades.Ingrediente;
 import com.example.recipebook.entidades.Receta;
 import com.example.recipebook.servicios.BookService;
 import com.example.recipebook.storage.StorageService;
@@ -107,17 +108,10 @@ public class RecetaController {
 
     @GetMapping({ "receta/list"})
     public String listado(Model model) {
-        List<Receta> listaRecetas = servicio.findAll();
-        model.addAttribute("listaRecetas", listaRecetas);
+        model.addAttribute("listaRecetas", servicio.findAll());
         return "list";
     }
 
-    @GetMapping({ "login/receta/list"})
-    public String listadoLog(Model model) {
-        List<Receta> listaRecetas = servicio.findAll();
-        model.addAttribute("listaRecetas", listaRecetas);
-        return "list";
-    }
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {
         log.info("Se esta agregando una nueva receta");
@@ -128,30 +122,37 @@ public class RecetaController {
     }
 
     @PostMapping("receta/new/submit")
-    //@ModelAtribute equivaldría a esto
-    //public String nuevaMascotaSubmit(Mascota nuevaMascota, Model model) {
-    //    Mascota nuevaMascota = model.getAttribute("mascotaDto");
     public String nuevaRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
                                     @Valid @ModelAttribute("recetaDto") Receta nuevaReceta,
                                     BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", false);
+            bindingResult.getFieldErrors()
+                    .forEach(e -> log.info("field: " + e.getField() + ", rejected value: " + e.getRejectedValue()));
             return "RecetaFormulario";
         } else {
-            servicio.add(nuevaReceta);
-            model.addAttribute("listaRecetas", servicio.findAll()); // Actualiza el modelo con la lista actualizada de recetas
             if (!fichero.isEmpty()) {
                 log.info("hay foto");
                 String fotoFilename = servicioAlmacenamiento.store(fichero, nuevaReceta.getId());
                 nuevaReceta.setFoto(MvcUriComponentsBuilder
                         .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
                 log.info("uri de la foto de la mascota {}", nuevaReceta.getFoto());
-
             }
-            return "redirect:/receta/list";
 
+            // Asocia los ingredientes con la receta
+            List<Ingrediente> ingredientes = nuevaReceta.getIngredientesList();
+            if (ingredientes != null) {
+                System.out.println("entro");
+                for (Ingrediente ingrediente : ingredientes) {
+                    ingrediente.setReceta(nuevaReceta);
+                }
+            }
+
+            servicio.save(nuevaReceta);
+            return "redirect:/receta/list";
         }
     }
+
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -164,11 +165,10 @@ public class RecetaController {
 
        Optional<Receta>receta=servicio.findById(id);
         if (receta.isPresent()) {
-            model.addAttribute("recetaDto", receta);
+            model.addAttribute("recetaDto", receta.get());
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
-
             return "redirect:/receta/new";
         }
     }
@@ -180,7 +180,7 @@ public class RecetaController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", true);
-            return "RecetaFormulario";  // Corregir la vista aquí
+            return "RecetaFormulario";
         } else {
             if (!fichero.isEmpty()){
                 log.info("hay foto");
@@ -189,7 +189,7 @@ public class RecetaController {
                         .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
 
             }
-            servicio.edit(receta);
+            servicio.save(receta);
             return "redirect:/receta/list";
         }
     }

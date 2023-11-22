@@ -1,10 +1,7 @@
 package com.example.recipebook.entidades;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -15,11 +12,12 @@ import lombok.NoArgsConstructor;
 public class Ingrediente {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private String nombre;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "receta_id")
     private Receta receta;
 
