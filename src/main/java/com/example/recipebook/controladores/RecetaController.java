@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -115,8 +116,9 @@ public class RecetaController {
     @GetMapping("receta/new")
     public String nuevaMascota(Model model) {
         log.info("Se esta agregando una nueva receta");
-
-        model.addAttribute("recetaDto", new Receta());
+        Receta nuevaReceta = new Receta();
+        nuevaReceta.setIngredientes(new ArrayList<>());  // Inicializa la lista de ingredientes
+        model.addAttribute("recetaDto", nuevaReceta);
         model.addAttribute("modoEdicion", false);
         return "RecetaFormulario";
     }

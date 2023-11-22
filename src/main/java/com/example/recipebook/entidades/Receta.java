@@ -33,15 +33,6 @@ public class Receta {
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL)
     private List<Ingrediente> ingredientes;
 
-    public String getIngredientesAsString() {
-        if (ingredientes != null && !ingredientes.isEmpty()) {
-            return ingredientes.stream()
-                    .map(Ingrediente::getNombre)
-                    .collect(Collectors.joining("\n"));
-        } else {
-            return "";
-        }
-    }
 
     public List<Ingrediente> getIngredientesList() {
         return this.ingredientes;
