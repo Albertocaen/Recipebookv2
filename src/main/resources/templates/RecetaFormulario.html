@@ -29,10 +29,13 @@
         </div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('Ingredientes')} ? 'has-error'">
-            <label class="form-label" for="Ingredient" th:text="#{receta.formulario.Ingredientes}">Igredientes</label>
-            <input class="form-control" type="text" id="Ingredient"  th:field="*{ingredientes}" />
-            <span th:if="${#fields.hasErrors('Ingredientes')}" th:errors="*{ingredientes}"
-                  class="help-block text-danger" id="ingredientes-error">Errores</span>
+            <label class="form-label" for="ingredientes" th:text="#{receta.formulario.Ingredientes}">Igredientes</label>
+            <input class="form-control" type="text" id="ingredientes"
+                   th:field="*{ingredientesAsString}"/>
+                  <span th:if="${#fields.hasErrors('Ingredientes')}" th:errors="*{ingredientes}"
+                        class="help-block text-danger" id="ingredientes-error">Errores</span>
+
+
         </div>
         <div class="input-group mb-3">
             <label class="form-label" for="Preparacion" th:text="#{receta.formulario.Preparacion}">Preparacion</label>

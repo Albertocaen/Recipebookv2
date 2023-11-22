@@ -28,6 +28,7 @@ public class BookService {
     public Receta add(Receta r) {
         return recetaRepository.save(r);
     }
+    public Receta save(Receta r){return recetaRepository.save(r);}
 
     public void addAll(List<Receta> lista) {
         recetaRepository.saveAll(lista);
@@ -59,6 +60,7 @@ public class BookService {
         return null;
     }
 
+
     public List<Receta> obtenerRecetasOrdenadasPorVisitas() {
         // Obtener las recetas directamente de la base de datos y ordenarlas
         List<Receta> recetas = recetaRepository.findAllByOrderByVisitasDesc();
@@ -68,20 +70,24 @@ public class BookService {
     @PostConstruct
     public void init() {
         try {
+            // Crear la receta
             Receta pan = Receta.builder()
                     .nombre("pan")
                     .preparacion("Se mezcla bien hasta formar una masa y hornear")
-                    .ingredientes(Arrays.asList(
-                            Ingrediente.builder().nombre("Harina").build(),
-                            Ingrediente.builder().nombre("Huevo").build(),
-                            Ingrediente.builder().nombre("Chimichanga").build()
-                    ))
                     .foto(null)
                     .build();
 
+            // Crear los ingredientes y establecer la relación bidireccional
+            Ingrediente harina = Ingrediente.builder().nombre("Harina").receta(pan).build();
+            Ingrediente huevo = Ingrediente.builder().nombre("Huevo").receta(pan).build();
+            Ingrediente chimichanga = Ingrediente.builder().nombre("Chimichanga").receta(pan).build();
+
+            // Establecer la lista de ingredientes en la receta
+            pan.setIngredientes(Arrays.asList(harina, huevo, chimichanga));
+
+            // Guardar la receta en el repositorio
             recetaRepository.save(pan);
         } catch (Exception e) {
-            // Agrega manejo de excepciones aquí, por ejemplo, logueando el error
             e.printStackTrace();
         }
     }
