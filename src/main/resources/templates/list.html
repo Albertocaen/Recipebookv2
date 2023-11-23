@@ -30,7 +30,7 @@
             </ul>
           </td>
           <td th:text="${receta.preparacion}">Preparacion</td>
-          <td><img th:src="@{receta.foto}" alt="Foto mascota" width="64px"></td>
+          <td><img th:src="${receta.foto}" alt="Foto mascota" width="64px"></td>
           <td>
             <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">
               <i class="fas fa-eye fa-2x"></i>

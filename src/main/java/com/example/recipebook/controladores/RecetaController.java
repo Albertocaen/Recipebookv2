@@ -25,9 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.web.servlet.i18n.SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME;
@@ -112,14 +110,15 @@ public class RecetaController {
         return "list";
     }
 
-    @GetMapping("receta/new")
-    public String nuevaMascota(Model model) {
-        log.info("Se esta agregando una nueva receta");
-
-        model.addAttribute("recetaDto", new Receta());
+    @GetMapping("/receta/new")
+    public String nuevaReceta(Model model) {
+        log.info("Se está agregando una nueva receta");
+        Receta nuevaReceta = new Receta();
+        model.addAttribute("recetaDto", nuevaReceta);
         model.addAttribute("modoEdicion", false);
         return "RecetaFormulario";
     }
+
 
     @PostMapping("receta/new/submit")
     public String nuevaRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
@@ -139,11 +138,9 @@ public class RecetaController {
                 log.info("uri de la foto de la mascota {}", nuevaReceta.getFoto());
             }
 
-            // Asocia los ingredientes con la receta
-            List<Ingrediente> ingredientes = nuevaReceta.getIngredientesList();
-            if (ingredientes != null) {
-                System.out.println("entro");
-                for (Ingrediente ingrediente : ingredientes) {
+            // Maneja la lista de ingredientes
+            if (nuevaReceta.getIngredientes() != null) {
+                for (Ingrediente ingrediente : nuevaReceta.getIngredientes()) {
                     ingrediente.setReceta(nuevaReceta);
                 }
             }
@@ -163,9 +160,10 @@ public class RecetaController {
     @GetMapping("/receta/edit/{id}")
     public String editarRecetaForm(@PathVariable Long id, Model model) {
 
-       Optional<Receta>receta=servicio.findById(id);
-        if (receta.isPresent()) {
-            model.addAttribute("recetaDto", receta.get());
+        Optional<Receta> recetaOptional = servicio.findById(id);
+        if (recetaOptional.isPresent()) {
+            Receta receta = recetaOptional.get();
+            model.addAttribute("recetaDto",receta);
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
@@ -177,30 +175,48 @@ public class RecetaController {
     public String editarRecetaSubmit(@RequestParam(value = "fichero", required = false) MultipartFile fichero,
                                      @Valid @ModelAttribute("recetaDto") Receta receta,
                                      BindingResult bindingResult, Model model) {
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
-            if (!fichero.isEmpty()){
+            if (!fichero.isEmpty()) {
                 log.info("hay foto");
                 String fotoFilename = servicioAlmacenamiento.store(fichero, receta.getId());
                 receta.setFoto(MvcUriComponentsBuilder
                         .fromMethodName(RecetaController.class, "serveFile", fotoFilename).build().toUriString());
-
             }
+
+            // Maneja la lista de ingredientes
+            if (receta.getIngredientes() != null) {
+                for (Ingrediente ingrediente : receta.getIngredientes()) {
+                    ingrediente.setReceta(receta);
+                }
+            }
+
             servicio.save(receta);
             return "redirect:/receta/list";
         }
     }
     @GetMapping("/receta/verRecetaCompleta/{id}")
-    public String verRecetaCompleta(@PathVariable Long id, Model model) {
-       Optional<Receta>receta=servicio.findById(id);
-        servicio.obtenerRecetaYActualizarVisitas(id);
-        model.addAttribute("recetaDto", receta);
-        return "recetacompleta";
+    public String verRecetaCompleta(@PathVariable Long id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        Optional<Receta> recetaOptional = servicio.findById(id);
+        if (recetaOptional.isPresent()) {
+            Receta receta = recetaOptional.get();
+            model.addAttribute("recetaDto", receta);
 
+            // Actualizar las visitas de la receta
+            servicio.obtenerRecetaYActualizarVisitas(id);
+
+            HttpSession session = request.getSession();
+            Object contadorReceta = session.getAttribute("numVisitasReceta_" + id);
+            session.setAttribute("numVisitasReceta_" + id, (contadorReceta == null) ? 1 : ((int) contadorReceta + 1));
+
+            return "recetacompleta";
+        } else {
+            return "redirect:/receta/list";
+        }
     }
+
     @GetMapping("receta/borrar/{id}")
     public String borrarReceta(@PathVariable("id") Long id) {
         Optional<Receta>receta=servicio.findById(id);

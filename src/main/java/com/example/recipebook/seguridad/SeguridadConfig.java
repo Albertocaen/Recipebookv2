@@ -19,8 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SeguridadConfig   {
 
-    @Autowired
-    private UserService userService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,15 +37,10 @@ public class SeguridadConfig   {
                                 AntPathRequestMatcher.antMatcher("/css/**"),
                                 AntPathRequestMatcher.antMatcher("/img/**"),
                                 AntPathRequestMatcher.antMatcher("/webjars/**"),
-                                AntPathRequestMatcher.antMatcher("/login"),
                                 PathRequest.toH2Console()).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/receta/new")).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/inicio")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
@@ -60,7 +54,6 @@ public class SeguridadConfig   {
         http.headers(headers->
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
-        http.userDetailsService(userService);
 
 
         return http.build();

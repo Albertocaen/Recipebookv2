@@ -1,51 +1,32 @@
 package com.example.recipebook.servicios;
 
-import com.example.recipebook.entidades.User;
+import com.example.recipebook.entidades.Usuario;
+import com.example.recipebook.repositorio.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
+@RequiredArgsConstructor
 @Service
-public class   UserService implements UserDetailsService {
-    List<User> users=new ArrayList<>();
+public class   UserService  {
+    private final UserRepository repositorio;
 
-    public UserService() {
-        users.add(new User("usuario1",passwordEncoder().encode("1234"),"ADMIN"));
-        users.add(new User("usuario2",passwordEncoder().encode("1234"),"USER"));
-        users.add(new User("usuario3",passwordEncoder().encode("1234"),"USER"));
-    }
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
+
+    public Usuario save(Usuario u) {
+        u.setPassword(passwordEncoder.encode(u.getPassword()));
+        return repositorio.save(u);
     }
 
-    public User findByUsername(String username) {
-        return users.stream()
-                .filter(user -> username.equals(user.getUsername()))
-                .findFirst()
-                .orElse(null);
-    }
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuario no encontrado: " + username);
-        }
-
-        String userRole = user.getRole();
-
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .roles(userRole)
-                .password(user.getPassword())
-                .build();
+    public Usuario findById(long id) {
+        return repositorio.findById(id).orElse(null);
     }
 
+    public Usuario findByUsernameOrEmail(String s) {
+        return repositorio.buscarPorUsernameOEmail(s).orElse(null);
+    }
 }
