@@ -22,7 +22,11 @@
                 <tr th:each="receta : ${recetaDto.id}">
                     <td th:text="${recetaDto.id}">ID</td>
                     <td th:text="${recetaDto.nombre}">Nombre</td>
-                    <td th:text="${recetaDto.ingredientes}">Ingredientes</td>
+                    <td>
+                        <ul>
+                            <li th:each="ingrediente : ${recetaDto.ingredientes}" th:text="${ingrediente.nombre}"></li>
+                        </ul>
+                    </td>
                     <td th:text="${recetaDto.preparacion}">Preparacion</td>
 
 

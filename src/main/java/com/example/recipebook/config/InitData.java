@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -23,6 +24,12 @@ public class InitData {
     //@Autowired
  
     private final UserService usuarioService;
+
+    @PostConstruct
+    public void initStorage() {
+        storageService.deleteAll();
+        storageService.init();
+    }
 
     @PostConstruct
     public void initUsuarios() {
@@ -44,20 +51,18 @@ public class InitData {
     @PostConstruct
     public void init() {
         try {
-            // Crear la receta
+
             Receta pan = Receta.builder()
                     .nombre("pan")
                     .preparacion("Se mezcla bien hasta formar una masa y hornear")
-                    .foto(null)
+                    .foto("/img/cartaimg.jpg")
                     .build();
 
             // Crear los ingredientes y establecer la relación bidireccional
-            Ingrediente harina = Ingrediente.builder().nombre("Harina").receta(pan).build();
-            Ingrediente huevo = Ingrediente.builder().nombre("Huevo").receta(pan).build();
-            Ingrediente chimichanga = Ingrediente.builder().nombre("Chimichanga").receta(pan).build();
+            Ingrediente ingrediente = Ingrediente.builder().nombre("Harina,Arroz,Cambur").receta(pan).build();
 
             // Establecer la lista de ingredientes en la receta
-            pan.setIngredientes(Arrays.asList(harina, huevo, chimichanga));
+            pan.setIngredientes(Collections.singletonList(ingrediente));
 
             // Guardar la receta en el repositorio
             recetaRepository.save(pan);

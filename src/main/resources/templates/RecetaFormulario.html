@@ -27,23 +27,22 @@
             <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
                   class="help-block text-danger" id="nombre-error">Errores</span>
         </div>
+
         <div class="input-group mb-3">
-            <label class="form-label" th:text="#{receta.formulario.Ingredientes}">Ingredientes</label>
+            <label for="ingredientes" class="form-label" th:text="#{receta.formulario.Ingredientes}">Ingredientes</label>
             <div class="ingredientes-container">
                 <div th:each="ingrediente, ingredienteStat : *{ingredientes}">
                     <div class="input-group">
-                        <input class="form-control" type="text" th:field="*{ingredientes[__${ingredienteStat.index}__].nombre}" />
+                        <input class="form-control" type="text" id="ingredientes" th:field="*{ingredientes[__${ingredienteStat.index}__].nombre}" />
                         <span class="input-group-btn">
-                    <button type="button" class="btn btn-danger" th:onclick="'borrarIngrediente(this, ' + ${ingredienteStat.index} + ')'" aria-label="Borrar Ingrediente">
-                        <i class="fas fa-trash" aria-hidden="true"></i>
-                    </button>
                 </span>
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-success" onclick="agregarIngrediente()">Agregar Ingrediente</button>
             <span th:if="${#fields.hasErrors('ingredientes')}" th:errors="*{ingredientes}" class="help-block text-danger" id="ingredientes-error">Errores</span>
         </div>
+
+
         <div class="input-group mb-3">
             <label class="form-label" for="Preparacion" th:text="#{receta.formulario.Preparacion}">Preparacion</label>
             <textarea class="form-control text-danger" id="Preparacion"  th:field="*{preparacion}" rows="5"></textarea>
@@ -91,6 +90,5 @@
     </div>
 </form>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/static/music/ingredientesjs.js}"></script>
 </body>
 </html>
