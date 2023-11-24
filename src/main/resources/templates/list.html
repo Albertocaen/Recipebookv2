@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
-  <title>Title</title>
-  <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
-  <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
+    <title>Lista</title>
+    <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
+    <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container ">
-  <div class="card">
-    <div class="card-body">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th th:text="#{lista.id}">ID</th>
-          <th th:text="#{lista.nombre}">Nombre</th>
-          <th th:text="#{lista.ingredientes}">Ingredientes</th>
-          <th th:text="#{lista.preparacion}">Preparacion</th>
-          <th>Foto</th>
-          <th th:text="#{lista.acciones}">Acciones</th>
-        </thead>
-        <tbody>
-        <tr th:each="receta : ${listaRecetas}">
-          <td th:text="${receta.id}">ID</td>
-          <td th:text="${receta.nombre}">Nombre</td>
-          <td>
-            <ul>
-              <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente.nombre}"></li>
-            </ul>
-          </td>
-          <td th:text="${receta.preparacion}">Preparacion</td>
-          <td><img th:src="${receta.foto}" alt="Foto mascota" width="64px"></td>
-          <td>
-            <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">
-              <i class="fas fa-eye fa-2x"></i>
-            </a>
-          </td>
+    <div class="card" >
+        <div th:replace="fragmentos/filtrado :: filtrado"></div>
+        <div id="resultadoBusqueda"></div>
+        <div class="card-body" id="listaRecetas">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th th:text="#{lista.id}">ID</th>
+                    <th th:text="#{lista.nombre}">Nombre</th>
+                    <th th:text="#{lista.ingredientes}">Ingredientes</th>
+                    <th th:text="#{lista.preparacion}">Preparacion</th>
+                    <th th:text="#{receta.formulario.foto}">Foto</th>
+                    <th th:text="#{lista.acciones}">Acciones</th>
+                </thead>
+                <tbody>
+                <tr th:each="receta : ${listaRecetas}">
+                    <td th:text="${receta.id}">ID</td>
+                    <td th:text="${receta.nombre}">Nombre</td>
+                    <td>
+                        <ul>
+                            <li th:each="ingrediente : ${receta.ingredientes}" th:text="${ingrediente.nombre}"></li>
+                        </ul>
+                    </td>
+                    <td th:text="${receta.preparacion}">Preparacion</td>
+                    <td><img th:src="${receta.foto}" alt="Foto receta" width="64px"></td>
+                    <td>
+                        <a th:href="@{/receta/verRecetaCompleta/{id}(id=${receta.id})}">
+                            <i class="fas fa-eye fa-2x"></i>
+                        </a>
+                    </td>
 
-          <td>
-            <a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary" th:text="#{lista.editar}">Editar</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <td><a th:href="@{/receta/new}" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
+                    <td>
+                        <a th:href="@{'/receta/edit/' + ${receta.id}}" class="btn btn-primary"
+                           th:text="#{lista.editar}">Editar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <td><a th:href="@{/receta/new}" id="boton" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
 
+        </div>
     </div>
-  </div>
 </div>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/static/js/ajax.js}"></script>
 </body>
 </html>

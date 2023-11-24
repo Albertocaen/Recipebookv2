@@ -53,19 +53,42 @@ public class InitData {
         try {
 
             Receta pan = Receta.builder()
-                    .nombre("pan")
+                    .nombre("Pan")
                     .preparacion("Se mezcla bien hasta formar una masa y hornear")
-                    .foto("/img/cartaimg.jpg")
+                    .foto("/img/pan.jpg")
                     .build();
-
-            // Crear los ingredientes y establecer la relación bidireccional
             Ingrediente ingrediente = Ingrediente.builder().nombre("Harina,Arroz,Cambur").receta(pan).build();
-
-            // Establecer la lista de ingredientes en la receta
             pan.setIngredientes(Collections.singletonList(ingrediente));
+
+            Receta pasta= Receta.builder()
+                    .nombre("Pasta")
+                    .preparacion("Cocinar la pasta en agua con sal y servir con la salsa de tu elección.")
+                    .foto(null)
+                    .build();
+            Ingrediente ingredientePasta=Ingrediente.builder().nombre("Pasta, Agua, Sal, Salsa").receta(pasta).build();
+            pasta.setIngredientes(Collections.singletonList(ingredientePasta));
+
+            Receta ensalada= Receta.builder()
+                    .nombre("Ensalada")
+                    .preparacion("Mezclar diversos vegetales y aderezar con aceite de oliva y vinagre.")
+                    .foto(null)
+                    .build();
+            Ingrediente ingredienteEnsalada=Ingrediente.builder().nombre("Luchuga, Tomate, Pepino, Aceite de oliva extra virgen, Vinagre").receta(ensalada).build();
+            ensalada.setIngredientes(Collections.singletonList(ingredienteEnsalada));
+
+            Receta arroz= Receta.builder()
+                    .nombre("Arroz")
+                    .preparacion("Lavar el arroz 3 veces, hervir por 10minutos, sal a gusto.")
+                    .foto(null)
+                    .build();
+            Ingrediente ingredienteArroz=Ingrediente.builder().nombre("Arroz, Sal (Opcional), Agua").receta(arroz).build();
+            arroz.setIngredientes(Collections.singletonList(ingredienteArroz));
 
             // Guardar la receta en el repositorio
             recetaRepository.save(pan);
+            recetaRepository.save(pasta);
+            recetaRepository.save(ensalada);
+            recetaRepository.save(arroz);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -10,49 +10,52 @@
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <form method="post" action="#" enctype="multipart/form-data"
       th:action="${modoEdicion} ? @{/receta/edit/submit} : @{/receta/new/submit}"
-      th:object="${recetaDto}" >
+      th:object="${recetaDto}">
     <h4 th:text="${modoEdicion} ? #{receta.formulario.titulo2} : #{receta.formulario.titulo1}">Nueva receta</h4>
     <div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('id')} ? 'has-error'">
             <label class="form-label" for="id" th:text="#{receta.formulario.id}">Id</label>
-            <input class="form-control" type="number" id="id"  th:field="*{id}"
-                   th:attrappend="readonly=${recetaDto.id != null and modoEdicion} ? 'readonly' : null" />
+            <input class="form-control" type="number" id="id" th:field="*{id}"
+                   th:attrappend="readonly=${recetaDto.id != null and modoEdicion} ? 'readonly' : null"/>
             <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
         </div>
         <div class="input-group mb-3"
              th:classappend="${#fields.hasErrors('nombre')} ? 'has-error'">
             <label class="form-label" for="nombre" th:text="#{receta.formulario.nombre}">Nombre</label>
-            <input class="form-control" type="text" id="nombre"  th:field="*{nombre}" />
+            <input class="form-control" type="text" id="nombre" th:field="*{nombre}"/>
             <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
                   class="help-block text-danger" id="nombre-error">Errores</span>
         </div>
 
         <div class="input-group mb-3">
-            <label for="ingredientes" class="form-label" th:text="#{receta.formulario.Ingredientes}">Ingredientes</label>
+            <label for="ingredientes" class="form-label"
+                   th:text="#{receta.formulario.Ingredientes}">Ingredientes</label>
             <div class="ingredientes-container">
                 <div th:each="ingrediente, ingredienteStat : *{ingredientes}">
                     <div class="input-group">
-                        <input class="form-control" type="text" id="ingredientes" th:field="*{ingredientes[__${ingredienteStat.index}__].nombre}" />
+                        <input class="form-control" type="text" id="ingredientes"
+                               th:field="*{ingredientes[__${ingredienteStat.index}__].nombre}"/>
                         <span class="input-group-btn">
                 </span>
                     </div>
                 </div>
             </div>
-            <span th:if="${#fields.hasErrors('ingredientes')}" th:errors="*{ingredientes}" class="help-block text-danger" id="ingredientes-error">Errores</span>
+            <span th:if="${#fields.hasErrors('ingredientes')}" th:errors="*{ingredientes}"
+                  class="help-block text-danger" id="ingredientes-error">Errores</span>
         </div>
 
 
         <div class="input-group mb-3">
             <label class="form-label" for="Preparacion" th:text="#{receta.formulario.Preparacion}">Preparacion</label>
-            <textarea class="form-control text-danger" id="Preparacion"  th:field="*{preparacion}" rows="5"></textarea>
+            <textarea class="form-control text-danger" id="Preparacion" th:field="*{preparacion}" rows="5"></textarea>
         </div>
         <div class="input-group mb-3">
-            <label for="fichero">Foto:  </label>
-            <input type="hidden" th:field="*{foto}">
-            <img th:if="${recetaDto.foto != null}"
+            <label  th:text="#{receta.formulario.foto}" for="fichero">Foto: </label>
+            <input   type="hidden" th:field="*{foto}">
+            <img  th:if="${recetaDto.foto != null}"
                  id="image-preview" th:src="@{*{foto}}" alt="imagen previa de receta">
-            <input type="file" id="fichero" name="fichero" class="form-control" >
+            <input  type="file" id="fichero" name="fichero" class="form-control">
         </div>
 
 
@@ -66,7 +69,8 @@
     </button>
 
     <th:block th:if="${modoEdicion}">
-        <a href="#" data-bs-toggle="modal" th:data-bs-target="'#delete-modal_' + ${recetaDto.id}" aria-label="Borrar" class="delete-button">
+        <a href="#" data-bs-toggle="modal" th:data-bs-target="'#delete-modal_' + ${recetaDto.id}" aria-label="Borrar"
+           class="delete-button">
             <span class="fas fa-trash" aria-hidden="true"></span>
         </a>
     </th:block>
@@ -78,17 +82,21 @@
                     <h5 class="modal-title" th:text="#{borrar.receta}">Borrar Receta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body" >
+                <div class="modal-body">
                     <p th:text="#{borrar.confirmacion}">¿Confirma el borrado de esta Receta?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{borrar.cancelar}">Cancelar</button>
-                    <a th:href="@{/receta/borrar/{id}(id=${recetaDto.id})}" class="btn btn-primary" th:text="#{borrar.aceptar}">Aceptar</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            th:text="#{borrar.cancelar}">Cancelar
+                    </button>
+                    <a th:href="@{/receta/borrar/{id}(id=${recetaDto.id})}" class="btn btn-primary"
+                       th:text="#{borrar.aceptar}">Aceptar</a>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
 </body>
 </html>

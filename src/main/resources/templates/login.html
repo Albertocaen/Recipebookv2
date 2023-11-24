@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
-    <title>Title</title>
+    <title>Login</title>
     <link th:href="@{/css/estiloLogin.css}" rel="stylesheet">
-    <link  th:href="@{/css/estiloNav.css}" rel="stylesheet">
+    <link th:href="@{/css/estiloNav.css}" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
@@ -13,7 +13,7 @@
     <form sec:authorize="!isAuthenticated()" method="post" th:action="@{/login}">
         <span th:if="${param.error}" th:text="#{login.alerta}"></span>
         <div class="form-group">
-            <label for="username"  th:text="#{login.usuario}">Usuario:</label>
+            <label for="username" th:text="#{login.usuario}">Usuario:</label>
             <input type="text" id="username" name="username">
         </div>
         <div class="form-group">

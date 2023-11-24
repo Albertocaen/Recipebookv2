@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
  let volumeControlLabel = document.createElement("label");
  volumeControlLabel.id = "volumeControlLabel";
  volumeControlLabel.classList.add("input-group-text");
- volumeControlLabel.innerHTML = "Volumen";
+ volumeControlLabel.innerHTML = "Volume";
 
  let volumeControl = document.createElement("input");
  volumeControl.type = "range";

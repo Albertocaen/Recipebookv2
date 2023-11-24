@@ -40,7 +40,8 @@ public class RecetaController {
     private static final int COOKIE_MAX_AGE = 604800; // 7 * 24 * 60 * 60 = 604800 (7 días)
     private static final String CONTADOR_NAME_INICIO = "numVisitasIndex";
     private static final String CONTADOR_NAME_APP = "numVisitasApp";
-    @GetMapping({"/","/inicio"})
+
+    @GetMapping({"/", "/inicio"})
     public String inicio(Model model, HttpServletRequest request, HttpServletResponse response) {
         // Obtener la lista de recetas ordenadas por visitas
         List<Receta> listaRecetas = servicio.obtenerRecetasOrdenadasPorVisitas();
@@ -58,23 +59,23 @@ public class RecetaController {
         model.addAttribute("Recetas", primerasRecetas);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)){
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String user = authentication.getName();
 
             // Si ya hay datos de contador de visitas en la sesión es que no es la primera vez
             // que se pasa por aquí y no incrementamos la cookie
 
-            HttpSession session =  request.getSession();
-            boolean primeraEntrada=(session.getAttribute(CONTADOR_NAME_APP)==null);
+            HttpSession session = request.getSession();
+            boolean primeraEntrada = (session.getAttribute(CONTADOR_NAME_APP) == null);
 
             // Comprobar si el navegador tenía cookie del usuario
-            if (primeraEntrada){
+            if (primeraEntrada) {
                 Optional<Cookie> cookieEncontrada = Arrays.stream(request.getCookies())
                         .filter(cookie -> user.equals(cookie.getName()))
                         .findAny();
-                int contador=1;
-                if (cookieEncontrada.isEmpty()){
-                    Cookie cookie = new Cookie(user,"1");
+                int contador = 1;
+                if (cookieEncontrada.isEmpty()) {
+                    Cookie cookie = new Cookie(user, "1");
                     cookie.setPath("/");
                     cookie.setDomain("localhost");
                     cookie.setMaxAge(COOKIE_MAX_AGE);
@@ -82,7 +83,7 @@ public class RecetaController {
                     cookie.setHttpOnly(true);
 
                     response.addCookie(cookie);
-                }else {
+                } else {
                     Cookie cookie = cookieEncontrada.get();
                     contador = Integer.parseInt(cookie.getValue()) + 1;
                     cookie.setValue(String.valueOf(contador));
@@ -96,7 +97,7 @@ public class RecetaController {
             }
             // Almacenar en session el contador de visitas a la pagina index
             Object contadorIndex = session.getAttribute(CONTADOR_NAME_INICIO);
-            session.setAttribute(CONTADOR_NAME_INICIO, (contadorIndex == null) ? 1 : (int)contadorIndex + 1);
+            session.setAttribute(CONTADOR_NAME_INICIO, (contadorIndex == null) ? 1 : (int) contadorIndex + 1);
             log.info("idioma preferido: {}", session.getAttribute(LOCALE_SESSION_ATTRIBUTE_NAME));
             log.info("atributo del idioma {}", LOCALE_SESSION_ATTRIBUTE_NAME);
         }
@@ -104,7 +105,7 @@ public class RecetaController {
     }
 
 
-    @GetMapping({ "receta/list"})
+    @GetMapping({"receta/list"})
     public String listado(Model model) {
         model.addAttribute("listaRecetas", servicio.findAll());
         return "list";
@@ -163,7 +164,7 @@ public class RecetaController {
         Optional<Receta> recetaOptional = servicio.findById(id);
         if (recetaOptional.isPresent()) {
             Receta receta = recetaOptional.get();
-            model.addAttribute("recetaDto",receta);
+            model.addAttribute("recetaDto", receta);
             model.addAttribute("modoEdicion", true);
             return "RecetaFormulario";
         } else {
@@ -197,6 +198,7 @@ public class RecetaController {
             return "redirect:/receta/list";
         }
     }
+
     @GetMapping("/receta/verRecetaCompleta/{id}")
     public String verRecetaCompleta(@PathVariable Long id, Model model, HttpServletRequest request, HttpServletResponse response) {
         Optional<Receta> recetaOptional = servicio.findById(id);
@@ -219,13 +221,20 @@ public class RecetaController {
 
     @GetMapping("receta/borrar/{id}")
     public String borrarReceta(@PathVariable("id") Long id) {
-        Optional<Receta>receta=servicio.findById(id);
+        Optional<Receta> receta = servicio.findById(id);
         if (receta.isPresent()) {
             servicio.borrarRecetaById(receta.get());
             return "redirect:/receta/list";
         } else {
             return "recetacompleta";
         }
+    }
+
+    @GetMapping("/receta/filtrar")
+    public String filtrarRecetas(@RequestParam("nombre") String nombre, Model model) {
+        List<Receta> recetasFiltradas = servicio.findByNombreStartingWithIgnoreCase(nombre);
+        model.addAttribute("listaRecetas", recetasFiltradas);
+        return "fragmentos/resultadosTabla :: resultadosTabla";
     }
 
 }

@@ -1,0 +1,8 @@
+<div th:fragment="filtrado">
+    <div class="input-group mb-3">
+        <label class="input-group-text" th:text="#{bonton.filtrar}" for="filtroNombre"><strong>Filtrar por nombre:</strong></label>
+        <input type="text" id="filtroNombre" name="filtroNombre" class="form-control">
+        <button onclick="filtrarRecetas()" th:text="#{boton.buscar}" class="btn btn-primary">Buscar</button>
+    </div>
+</div>
+

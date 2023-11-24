@@ -25,10 +25,17 @@ public class BookService {
         return recetaRepository.findAll();
     }
 
+    public List<Receta> findByNombreStartingWithIgnoreCase(String nombre) {
+        return recetaRepository.findByNombreStartingWithIgnoreCase(nombre);
+    }
+
     public Receta add(Receta r) {
         return recetaRepository.save(r);
     }
-    public Receta save(Receta r){return recetaRepository.save(r);}
+
+    public Receta save(Receta r) {
+        return recetaRepository.save(r);
+    }
 
     public void addAll(List<Receta> lista) {
         recetaRepository.saveAll(lista);
@@ -66,7 +73,6 @@ public class BookService {
         List<Receta> recetas = recetaRepository.findAllByOrderByVisitasDesc();
         return recetas;
     }
-
 
 
 }

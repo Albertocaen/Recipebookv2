@@ -1,6 +1,10 @@
 body {
     background-color: #f5f5f5;
     font-family: Arial, sans-serif;
+    background-image: url('../img/copia-espacio-ingredientes-comida-italiana.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 form {

@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
-  <title>Title</title>
-  <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
-  <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
+    <title>Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
+    <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
 </head>
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container">
-  <h1 th:text="#{titulo.pagina.inicio}" class="titulo">Recetas más recomendadas</h1>
-  <div class="card-container">
-    <div th:each="receta, iterStat : ${Recetas}" class="recipe-card">
-      <div class="card-inner">
-        <div class="card-front">
+    <h1 th:text="#{titulo.pagina.inicio}" class="titulo">Recetas recomendadas</h1>
+    <div class="card-container">
+        <div th:each="receta, iterStat : ${Recetas}" class="recipe-card">
+            <div class="card-inner">
+                <div class="card-front">
 
+                </div>
+                <div class="card-back">
+                    <h2 th:text="${receta.nombre}">Nombre de la Receta</h2>
+                </div>
+            </div>
         </div>
-        <div class="card-back">
-          <h2 th:text="${receta.nombre}">Nombre de la Receta</h2>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

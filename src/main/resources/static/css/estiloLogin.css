@@ -1,7 +1,8 @@
 body {
-    background-image: url("../img/fondoLogin.jpg");
+    background-image: url('../img/copia-espacio-ingredientes-comida-italiana.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .login-container {

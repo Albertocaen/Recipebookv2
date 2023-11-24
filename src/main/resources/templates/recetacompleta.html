@@ -3,8 +3,11 @@
 <head th:replace="~{fragmentos/head::encabezado(~{::title}, ~{::link})}">
     <title>Formulario</title>
     <link th:href="@{/css/estiloRecetaCompleta.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/estiloCarta.css}">
+    <link rel="stylesheet" th:href="@{/css/estiloNav.css}">
 </head>
 <body>
+<nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container-fluid">
     <div class="card">
         <h3 th:text="#{receta.completa.titulo}">Receta</h3>
@@ -33,13 +36,13 @@
                 </tbody>
             </table>
 
-         <a th:href="@{/receta/list}" th:text="#{receta.atras}" class="btn btn-primary">Atras</a>
-
+            <a th:href="@{/receta/list}" th:text="#{receta.atras}" class="btn btn-primary">Atras</a>
 
 
         </div>
     </div>
 </div>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/static/js/ajax.js}"></script>
 </body>
 </html>

@@ -19,15 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
     private final UserService service;
+
     @GetMapping({"/login"})
     public String login(Model model) {
         model.addAttribute("intentoLog", false);
         return "login";
     }
+
     @PostMapping("/login")
     public String loginSubmit() {
         return "redirect:/inicio";
     }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
