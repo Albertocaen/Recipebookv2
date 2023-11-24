@@ -19,7 +19,7 @@ public class MensajesConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(new Locale("es","ES")); // Idioma predeterminado
+        localeResolver.setDefaultLocale(new Locale("es", "ES")); // Idioma predeterminado
         return localeResolver;
     }
 
@@ -45,6 +45,7 @@ public class MensajesConfig implements WebMvcConfigurer {
         messageSource.setCacheSeconds(3600);
         return messageSource;
     }
+
     @Bean
     public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

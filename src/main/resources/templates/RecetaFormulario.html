@@ -51,11 +51,11 @@
             <textarea class="form-control text-danger" id="Preparacion" th:field="*{preparacion}" rows="5"></textarea>
         </div>
         <div class="input-group mb-3">
-            <label  th:text="#{receta.formulario.foto}" for="fichero">Foto: </label>
-            <input   type="hidden" th:field="*{foto}">
-            <img  th:if="${recetaDto.foto != null}"
+            <label th:text="#{receta.formulario.foto}" for="fichero">Foto: </label>
+            <input type="hidden" th:field="*{foto}">
+            <img th:if="${recetaDto.foto != null}"
                  id="image-preview" th:src="@{*{foto}}" alt="imagen previa de receta">
-            <input  type="file" id="fichero" name="fichero" class="form-control">
+            <input type="file" id="fichero" name="fichero" class="form-control">
         </div>
 
 

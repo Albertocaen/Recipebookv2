@@ -8,7 +8,7 @@
 <body>
 <nav th:replace="~{fragmentos/navmenu::nav-menu}"></nav>
 <div class="container ">
-    <div class="card" >
+    <div class="card">
         <div th:replace="fragmentos/filtrado :: filtrado"></div>
         <div id="resultadoBusqueda"></div>
         <div class="card-body" id="listaRecetas">
@@ -46,7 +46,8 @@
                 </tr>
                 </tbody>
             </table>
-            <td><a th:href="@{/receta/new}" id="boton" class="btn btn-primary" th:text="#{lista.agregar}">Agregar Receta</a>
+            <td><a th:href="@{/receta/new}" id="boton" class="btn btn-primary" th:text="#{lista.agregar}">Agregar
+                Receta</a>
 
         </div>
     </div>

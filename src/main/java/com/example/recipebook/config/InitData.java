@@ -22,7 +22,7 @@ public class InitData {
 
     private final RecetaRepositorio recetaRepository;
     //@Autowired
- 
+
     private final UserService usuarioService;
 
     @PostConstruct
@@ -48,6 +48,7 @@ public class InitData {
                 .role("ROLE_ADMIN").build();
         usuario2 = usuarioService.save(usuario2);
     }
+
     @PostConstruct
     public void init() {
         try {
@@ -60,28 +61,28 @@ public class InitData {
             Ingrediente ingrediente = Ingrediente.builder().nombre("Harina,Arroz,Cambur").receta(pan).build();
             pan.setIngredientes(Collections.singletonList(ingrediente));
 
-            Receta pasta= Receta.builder()
+            Receta pasta = Receta.builder()
                     .nombre("Pasta")
                     .preparacion("Cocinar la pasta en agua con sal y servir con la salsa de tu elección.")
                     .foto("/img/pasta.jpg")
                     .build();
-            Ingrediente ingredientePasta=Ingrediente.builder().nombre("Pasta, Agua, Sal, Salsa").receta(pasta).build();
+            Ingrediente ingredientePasta = Ingrediente.builder().nombre("Pasta, Agua, Sal, Salsa").receta(pasta).build();
             pasta.setIngredientes(Collections.singletonList(ingredientePasta));
 
-            Receta ensalada= Receta.builder()
+            Receta ensalada = Receta.builder()
                     .nombre("Ensalada")
                     .preparacion("Mezclar diversos vegetales y aderezar con aceite de oliva y vinagre.")
                     .foto("/img/ensalada.jpg")
                     .build();
-            Ingrediente ingredienteEnsalada=Ingrediente.builder().nombre("Luchuga, Tomate, Pepino, Aceite de oliva extra virgen, Vinagre").receta(ensalada).build();
+            Ingrediente ingredienteEnsalada = Ingrediente.builder().nombre("Luchuga, Tomate, Pepino, Aceite de oliva extra virgen, Vinagre").receta(ensalada).build();
             ensalada.setIngredientes(Collections.singletonList(ingredienteEnsalada));
 
-            Receta arroz= Receta.builder()
+            Receta arroz = Receta.builder()
                     .nombre("Arroz")
                     .preparacion("Lavar el arroz 3 veces, hervir por 10minutos, sal a gusto  (Opcional).")
                     .foto("/img/arroz.jpg")
                     .build();
-            Ingrediente ingredienteArroz=Ingrediente.builder().nombre("Arroz, Sal, Agua").receta(arroz).build();
+            Ingrediente ingredienteArroz = Ingrediente.builder().nombre("Arroz, Sal, Agua").receta(arroz).build();
             arroz.setIngredientes(Collections.singletonList(ingredienteArroz));
 
             // Guardar la receta en el repositorio
