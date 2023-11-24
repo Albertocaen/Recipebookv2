@@ -63,7 +63,7 @@ public class InitData {
             Receta pasta= Receta.builder()
                     .nombre("Pasta")
                     .preparacion("Cocinar la pasta en agua con sal y servir con la salsa de tu elección.")
-                    .foto(null)
+                    .foto("/img/pasta.jpg")
                     .build();
             Ingrediente ingredientePasta=Ingrediente.builder().nombre("Pasta, Agua, Sal, Salsa").receta(pasta).build();
             pasta.setIngredientes(Collections.singletonList(ingredientePasta));
@@ -71,17 +71,17 @@ public class InitData {
             Receta ensalada= Receta.builder()
                     .nombre("Ensalada")
                     .preparacion("Mezclar diversos vegetales y aderezar con aceite de oliva y vinagre.")
-                    .foto(null)
+                    .foto("/img/ensalada.jpg")
                     .build();
             Ingrediente ingredienteEnsalada=Ingrediente.builder().nombre("Luchuga, Tomate, Pepino, Aceite de oliva extra virgen, Vinagre").receta(ensalada).build();
             ensalada.setIngredientes(Collections.singletonList(ingredienteEnsalada));
 
             Receta arroz= Receta.builder()
                     .nombre("Arroz")
-                    .preparacion("Lavar el arroz 3 veces, hervir por 10minutos, sal a gusto.")
-                    .foto(null)
+                    .preparacion("Lavar el arroz 3 veces, hervir por 10minutos, sal a gusto  (Opcional).")
+                    .foto("/img/arroz.jpg")
                     .build();
-            Ingrediente ingredienteArroz=Ingrediente.builder().nombre("Arroz, Sal (Opcional), Agua").receta(arroz).build();
+            Ingrediente ingredienteArroz=Ingrediente.builder().nombre("Arroz, Sal, Agua").receta(arroz).build();
             arroz.setIngredientes(Collections.singletonList(ingredienteArroz));
 
             // Guardar la receta en el repositorio
