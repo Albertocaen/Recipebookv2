@@ -31,7 +31,9 @@
     font-size: 18px;
     border: 1px solid #ccc;
     padding: 10px;
-    background-color: darkseagreen;
+    background-color: antiquewhite;
+    background-image: url('../img/surtido-concepto-comida-vegetariana-saludable.jpg');
+    background-size: cover;
 
 }
 
@@ -39,9 +41,8 @@
     transform: rotateY(180deg);
 }
 .card-front{
-    background-image: url('../img/comidas.jpg');
-
-    background-repeat: no-repeat;
+    background-image: url('../img/surtido-concepto-comida-vegetariana-saludable.jpg');
+    background-size: cover;
 }
 
 /* Mostrar solo las primeras 3 tarjetas */
@@ -53,15 +54,15 @@
     transform: rotateY(180deg);
 }
 .titulo{
-    color: #fff;
-    background-color: green;
-    padding: 10px 20px; /
-    font-size: 24px;
+    color: black;
+    padding: 10px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 45px;
     font-weight: bold;
-    text-align: center; /
+    text-align: center;
 }
 body{
-    background-image: url('../img/verdura.jpg');
+    background-image: url('../img/copia-espacio-ingredientes-comida-italiana.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

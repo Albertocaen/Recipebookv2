@@ -17,8 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SeguridadConfig   {
-
+public class SeguridadConfig {
 
 
     @Bean
@@ -31,7 +30,7 @@ public class SeguridadConfig   {
     public SecurityFilterChain formLoginFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeHttpRequests(auth-> auth
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/"),
                                 AntPathRequestMatcher.antMatcher("/static/**"),
                                 AntPathRequestMatcher.antMatcher("/css/**"),
@@ -51,15 +50,15 @@ public class SeguridadConfig   {
                         AntPathRequestMatcher.antMatcher("/webjars/**"),
                         AntPathRequestMatcher.antMatcher("/css/**"),
                         PathRequest.toH2Console()));
-        http.headers(headers->
+        http.headers(headers ->
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-
 
 
         return http.build();
     }
+
     @Configuration
-    public  class WebConfig implements WebMvcConfigurer {
+    public class WebConfig implements WebMvcConfigurer {
 
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {

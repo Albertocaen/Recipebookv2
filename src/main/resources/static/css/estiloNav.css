@@ -1,16 +1,16 @@
 /* Estilo general del menú */
 .navbar {
-    background-color: green; /* Color de fondo */
+    background-color: whitesmoke; /* Color de fondo */
     border-bottom: 1px solid #dee2e6; /* Línea inferior */
 }
 
 .navbar-brand {
     font-weight: bold; /* Texto en negrita */
-    font-size: 24px; /* Tamaño de fuente */
-    color: white; /* Color del texto */
+    font-size: 30px; /* Tamaño de fuente */
+    color: black; /* Color del texto */
 }
 .bg-brown {
-    background-color: green;
+    background-color: antiquewhite;
 }
 
 /* Botón hamburguesa */
@@ -21,7 +21,8 @@
 /* Estilo de los enlaces en el menú */
 .navbar-nav .nav-link {
     font-weight: 500; /* Texto seminegrita */
-    color: white; /* Color del texto */
+    font-size: 17px;
+    color: black; /* Color del texto */
 }
 
 /* Cambio de color al pasar el mouse por encima de los enlaces */
@@ -31,19 +32,19 @@
 
 /* Estilo del menú desplegable */
 .dropdown-menu {
-    background-color: saddlebrown; /* Color de fondo */
+    background-color: antiquewhite; /* Color de fondo */
     border: none; /* Sin borde */
 }
 
 .dropdown-item {
     font-weight: 400; /* Texto normal */
-    color: white; /* Color del texto */
+    color: black; /* Color del texto */
 }
 
 /* Cambio de color al pasar el mouse por encima del menú desplegable */
 .dropdown-item:hover {
     background-color: black; /* Color de fondo al pasar el mouse */
-    color: #fff; /* Color del texto al pasar el mouse */
+    color: whitesmoke; /* Color del texto al pasar el mouse */
 }
 
 /* Estilo para el botón "Iniciar Sesión" similar al de la página de referencia */
@@ -70,7 +71,7 @@
 /* Estilo del botón de idioma desplegable */
 .navbar-nav .dropdown-toggle {
     font-weight: 500; /* Texto seminegrita */
-    color: white; /* Color del texto */
+    color: black; /* Color del texto */
 }
 
 /* Estilo del menú de idioma desplegable */
@@ -102,7 +103,7 @@
 
 #volumeControlLabel {
     margin-bottom: 5px;
-    background: green;
+    background: black;
     border: none;
     font-size: 20px;
     color: white;
@@ -112,7 +113,7 @@
     width: 200px;
     height: 10px;
     -webkit-appearance: none; /* Elimina el estilo predeterminado del control en WebKit/Blink */
-    background: greenyellow; /* Fondo del control */
+    background: wheat; /* Fondo del control */
     border-radius: 5px;
     outline: none;
     margin-bottom: 5px;
